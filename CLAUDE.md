@@ -1,147 +1,137 @@
-# CLAUDE.md
+# CLAUDE.md — Repo FWI Hiding (IoT-63257-2026)
 
-> File này đặt ở GỐC repo. Claude Code tự đọc khi làm việc trong repo.
-> PHẦN A = 4 nguyên tắc hành xử khi code (theo Karpathy — giảm sai lầm phổ biến của LLM).
-> PHẦN B = quy ước riêng của repo này (dataset + hạ tầng kế thừa, ranh giới bài cũ). Điền `<...>`.
->
-> **Tradeoff:** các nguyên tắc này thiên về CẨN TRỌNG hơn tốc độ. Task tầm thường (sửa typo, one-liner
-> hiển nhiên) → dùng phán đoán, không cần full rigor.
+> File chỉ dẫn cho Claude Code (agent thực thi) khi làm việc trên repo này. Đọc TRƯỚC mọi phiên.
+> Trạng thái nằm trong FILE (plan / PROGRESS / báo cáo), không dựa trí nhớ.
 
 ---
 
-# PHẦN A — 4 NGUYÊN TẮC HÀNH XỬ KHI CODE
+## PHẦN A — 4 NGUYÊN TẮC CODE (giữ nguyên, áp cho mọi thay đổi)
 
-## A1. Think Before Coding — Nghĩ trước khi code
-**Đừng giả định. Đừng giấu chỗ khó hiểu. Nêu tradeoff.**
-
-Trước khi implement:
-- Nêu RÕ giả định của mình. Nếu không chắc → HỎI, đừng đoán.
-- Nếu có nhiều cách hiểu → trình bày ra, ĐỪNG tự chọn thầm.
-- Nếu có cách đơn giản hơn → nói ra. Push back khi có cơ sở.
-- Nếu có gì chưa rõ → DỪNG. Gọi tên cái đang mập mờ. Hỏi.
-
-## A2. Simplicity First — Đơn giản trước
-**Code tối thiểu giải quyết đúng vấn đề. Không gì đầu cơ/phòng xa.**
-
-- Không thêm tính năng ngoài cái được yêu cầu.
-- Không abstraction cho code chỉ dùng 1 lần.
-- Không "linh hoạt"/"cấu hình được" mà không ai xin.
-- Không error-handling cho tình huống bất khả.
-- Viết 200 dòng mà 50 dòng đủ → viết lại.
-
-Tự hỏi: "Một senior engineer có nói cái này rối rắm quá không?" Nếu có → đơn giản hóa.
-
-## A3. Surgical Changes — Sửa đúng phần cần
-**Chỉ chạm cái BẮT BUỘC phải chạm. Dọn đúng phần mình bày ra.**
-
-Khi sửa code có sẵn:
-- Đừng "cải thiện" code/comment/format lân cận.
-- Đừng refactor thứ không hỏng.
-- Khớp style hiện có, kể cả khi mình thích làm khác.
-- Thấy dead code không liên quan → NÊU ra, ĐỪNG xóa.
-
-Khi thay đổi của mình tạo orphan:
-- Xóa import/biến/hàm mà THAY ĐỔI CỦA MÌNH làm thừa.
-- KHÔNG xóa dead code có sẵn từ trước trừ khi được yêu cầu.
-
-Kiểm: mỗi dòng thay đổi phải truy thẳng về yêu cầu của người dùng.
-
-## A4. Goal-Driven Execution — Chạy theo mục tiêu verify được
-**Chốt tiêu chí thành công. Lặp tới khi verify đạt.**
-
-Chuyển task mệnh lệnh thành mục tiêu verify được:
-- "Thêm validation" → "Viết test cho input sai, rồi làm nó pass"
-- "Sửa bug" → "Viết test tái hiện bug, rồi làm nó pass"
-- "Refactor X" → "Đảm bảo test pass trước VÀ sau"
-
-Task nhiều bước → nêu plan ngắn:
-```
-1. [Bước] → verify: [kiểm gì]
-2. [Bước] → verify: [kiểm gì]
-3. [Bước] → verify: [kiểm gì]
-```
-Tiêu chí mạnh cho phép loop độc lập. Tiêu chí yếu ("làm cho chạy") gây hỏi tới hỏi lui.
-
-**Các nguyên tắc này ĐANG hiệu quả nếu:** diff ít thay đổi thừa, ít phải viết lại do rối rắm, câu
-hỏi làm rõ đến TRƯỚC khi implement (không phải sau khi đã sai).
-
-> Ví dụ chi tiết ❌ sai vs ✅ đúng cho từng nguyên tắc: xem `docs/EXAMPLES.md` (bản gốc Karpathy —
-> ví dụ code minh họa; nguyên tắc phổ quát, dù ví dụ là code web).
+1. **Think before coding.** Trước khi gõ, nêu 1–3 dòng: sửa cái gì, ở đâu, vì sao, ảnh hưởng gì.
+   Không sửa mù.
+2. **Simplicity first.** Code tối thiểu giải quyết đúng vấn đề. Không thêm abstraction / config / tối
+   ưu không ai yêu cầu. Một hàm 20 dòng đủ đúng thì không viết class 200 dòng.
+3. **Surgical.** Giữ nguyên phần đang chạy đúng (mining engine PART 3). Chỉ chạm đúng dòng cần. Mỗi
+   thay đổi phải trả lời được "vì sao dòng này phải đổi".
+4. **Goal-driven + verify.** Mỗi thành phần có tiêu chí kiểm được (golden test §B.6). Chạy được golden
+   test trước khi coi là xong. Không tự tuyên bố "đã fix" mà chưa verify.
 
 ---
 
-# PHẦN B — QUY ƯỚC RIÊNG CỦA REPO NÀY
+## PHẦN B — QUY ƯỚC REPO FWI
 
-## 1. REPO NÀY LÀ GÌ
+### B.0 Repo này là gì
+Code cho bài **"Efficient Methods for Hiding Frequent Weighted Itemsets"** (IEEE IoT Journal,
+resubmit). Hai thuật toán ẩn FWI bằng **item deletion**: **HFPriority** (ưu tiên ẩn nhanh, Max-Conflict
+strategy) và **MCPriority** (ưu tiên bảo toàn NSFWI, Min-Side-Effect strategy). Kế thừa **mining engine
+PART 3** (**weighted N-list / SWU-N-list**, nguồn [21]; port từ v38, đã vá 2 lỗi `tw`+intersection
+theo SPEC_PART3_FIX, verify bằng golden+brute-force) + 7 dataset FIMI mở rộng.
 
-- Bài báo: **<tên bài mới>** — lĩnh vực <data mining / ...>. Đóng góp mới: <mô tả 1 dòng>.
-- Kế thừa từ dự án cũ: 7 dataset (đã làm sạch) + khung hạ tầng chạy thực nghiệm (coordinator,
-  metric utility tổng quát, scheme kết quả). KHÔNG kế thừa thuật toán/kết quả bài cũ.
-- Trạng thái sự thật nằm trong FILE (không dựa trí nhớ phiên): master plan `<PLAN_*.md>`,
-  `results/progress_*.json`, `results/summary.csv`. Mở phiên mới → đọc các file này trước.
+> **Nguyên nhân gốc bài bị reject:** code ≠ pseudocode ≠ văn xuôi. Repo này code LẠI cho khớp bài (bản
+> lý thuyết đã sửa, khóa trên v3_7). Mọi thay đổi phải làm giảm — không tăng — độ lệch này.
 
-## 2. CẤU TRÚC & VỊ TRÍ
+### B.1 Định nghĩa nền — CODE PHẢI KHỚP TỪNG CHỮ
+- **Transaction weight:** `tw(T) = Σ_{i∈T} w(i) / |T|` — **trung bình cộng weight, KHÔNG quantity.**
+- **W_total = Σ_T tw(T)** — trên **toàn bộ** giao dịch (kể cả không nhạy cảm).
+- **Weighted support:** `ws(X) = [Σ_{T⊇X} tw(T)] / W_total`.
+- **FWI:** X là FWI ⟺ `ws(X) ≥ ξ`.
+- **SFWI (S):** itemset nhạy cảm cần ẩn. **NSFWI (~S):** FWI không nhạy cảm.
+- **SCov(v)** = #SFWI chứa item v. **NSCov(v)** = #NSFWI chứa v.
+- **ScoreHFP(v) = |SCov(v)| × w(v)** ; **ScoreMCP(v) = 1 / (|NSCov(v)| + 1)** — cả hai **per-item**,
+  precompute một lần, bất biến qua giao dịch và iteration.
+- **Inverted index** ID(i) = tập TID chứa item i (lookup O(1)).
+- **Backend số:** golden/calibration = `Fraction` (exact); production = `float64` với ngưỡng
+  `round(ws, 3) ≥ ξ`; ξ mỗi dataset lưu ≤ 3 dp. (Đã verify float+round3 khớp Fraction, zero mismatch.)
 
+> **Bẫy #1 hay sai nhất:** sau mỗi lần xóa item, `tw` giao dịch đó đổi ⇒ **W_total đổi ⇒ MỌI ws dịch.**
+> Mọi check `ws(X) < ξ` hay `Safe(...)` phải tính theo **W_total mới**. Quên cập nhật W_total = sai (đã
+> xác minh bằng tay). Gom mọi cập nhật DB vào `delete()`.
+
+### B.2 Mười quyết định đã chốt (Q1–Q10) — KHÔNG tự đổi
+| # | Quyết định |
+|---|---|
+| Q1 | CHỈ giải quyết **ws** cho FWI hiding. KHÔNG wus, KHÔNG utility/HUIM. |
+| Q2 | **Hướng B**: code lại cho khớp bài (cài đúng 2 công thức Score). |
+| Q3 | **tw = Σw/\|T\|, bỏ quantity.** Sửa dòng tính tw trong engine (SPEC §4). |
+| Q4 | Chuẩn hóa weight **chia 10** → [0,1]. ws bất biến theo scale, chỉ đổi trình bày. |
+| Q6 | Giữ kết quả trung thực dù xấu. KHÔNG diễn giải ngược. |
+| Q7 | Thêm ≥1 **IoT dataset tĩnh**. Chạy lại toàn bộ. |
+| Q8 | Chạy lại **TOÀN BỘ trên 1 máy GCP** (RT một nguồn). |
+| Q9 | **GIỮ engine mining PART 3** (weighted N-list). Gỡ Colab + sửa ĐÚNG 2 chỗ (`tw`, `swunl_intersection`) theo SPEC_PART3_FIX; KHÔNG đụng logic mining khác. |
+| Q10 | Baseline: adapt **PPUM-HUIM** hiding, cấp ngân sách công bằng. |
+
+### B.3 Ràng buộc thuật toán (correctness invariants)
+- **Victim BẮT BUỘC ∈ SFWI đang xét.** Lemma A1: xóa item∈X làm ws(X) giảm ngặt; xóa item∉X không đảm
+  bảo (phản ví dụ ws tăng — Weight Transformation Paradox). Code KHÔNG cho victim ngoài SFWI.
+- **Chọn victim = two-stage per-(item, giao dịch):** vòng ngoài duyệt giao dịch, vòng trong chọn item
+  score cao nhất **có mặt trong chính giao dịch đó**. Score là per-item (precompute), nhưng quyết định
+  là per-(item, txn). KHÔNG cài "một victim toàn cục xóa khỏi nhiều giao dịch".
+- **|X| ≥ 2** cho mọi SFWI (cấm singleton) ⇒ giao dịch không bao giờ rỗng sau xóa. **w(i) > 0** ngặt.
+- **"Xóa 1, dừng":** với mỗi giao dịch, xóa tới khi giao dịch không còn chứa SFWI mục tiêu thì dừng
+  giao dịch đó — không xóa hết item. **"Ẩn" = ws(X) < ξ, KHÔNG phải count = 0.**
+- **Tie-break: id tăng dần (numeric).** item-id nhỏ hơn thắng; TID nhỏ hơn xử trước. Dùng
+  `int(v) if v.isdigit() else v` — dataset FIMI id số, sort chuỗi sẽ sai ("10" < "2").
+- **MCPriority chỉ thực hiện SAFE deletion** (`Safe` kiểm **toàn bộ ~S**) + dừng bằng **no-op** minh
+  bạch (SPEC §3.3). KHÔNG fallback, KHÔNG hy sinh NSFWI. Chấp nhận HF>0 để giữ MC=0.
+
+### B.4 Ranh giới — KHÔNG ĐỤNG
+- **KHÔNG đụng logic mining PART 3** (weighted N-list / SWU-N-list). Gỡ phụ thuộc Colab (I/O) + sửa
+  **ĐÚNG 2 chỗ theo SPEC_PART3_FIX**: (1) dòng tính `tw` (bỏ qty — sửa định nghĩa); (2)
+  `swunl_intersection_optimized` (giao tidset — sửa bug over-prune k≥3). KHÔNG chạm gì khác trong
+  PART 3 (`find_fwi_*`, tree build, traversal). Mọi thay đổi PART 3 ngoài 2 chỗ này → DỪNG, "CẦN QUYẾT ĐỊNH".
+- **GIỮ metric HF.** Bài FWI DÙNG HF (khác dự án SFWUP cũ đã bỏ HF). Đừng nghe kit cũ bảo bỏ HF.
+- **CHỈ 4 metric:** HF, MC, AC, RT. **KHÔNG port IUS/DUS/TMR/DDI** từ repo cũ (dựa TU=Σw·qty, sai định
+  nghĩa FWI; số cũ >21000% đã chứng minh không đáng tin).
+- **KHÔNG mang** RISWU / SWM / SDIF / SFWUP-đóng-băng / mọi CSV kết quả bài cũ.
+
+### B.5 Quy trình chạy (khi tới pha thực thi trên VM — không phải phiên thiết kế)
+3 bước, không phóng mù:
+1. **CHUẨN BỊ** — viết/kiểm coordinator + verify lưới ô đúng spec + verify logging đủ cột (HF/MC/AC/RT
+   + escalation counter cho MCPriority). Chưa chạy ô nào. Báo cáo ra file.
+2. **SMOKE TEST** — chạy 1–2 ô đại diện (chọn ô KHÓ NHẤT để bắt edge case) → verify metric ra đúng
+   (không NaN) + push OK. Chưa phóng.
+3. **PHÓNG** — smoke đạt mới launch toàn bộ (nền, detach).
+
+Hạ tầng chạy dài:
+- Chạy nền sống sót rớt SSH:
+  `setsid nohup python3 coordinator/run_coordinator.py >/dev/null 2>&1 </dev/null & disown` → verify
+  `pgrep -af` + `ps -o ppid= -p <PID>` = 1.
+- Coordinator: chạy **ô tuần tự** (RT không tranh tài nguyên → defensible), song song chỉ TRONG 1 ô.
+- **Checkpoint + commit+push sau MỖI ô.** Resume idempotent (skip ô đã có file kết quả).
+- **MỘT git writer = coordinator.** KHÔNG rebase/force/amend trên branch đang chạy. Experiment ở branch
+  riêng `exp/...`, không đụng main tới khi đóng gói.
+- `pgrep` là sự thật, KHÔNG dựa log mtime (baseline chạy dài im lặng ≠ chết).
+- **KHÔNG chạy script trần** nếu thiếu `if __name__=="__main__"` guard. Luôn chạy qua coordinator.
+
+### B.6 Golden test (chạy được TRƯỚC khi coi là xong bất kỳ hàm nào)
+Running example ξ=0.55 (verify độc lập bằng `Fraction`):
 ```
-datasets/           # 7 dataset FIMI (*_quantities.txt, *_weights.txt) — DÙNG LẠI, bản sạch
-src/                # code bài mới: data_loader.py, metrics.py, miner.py, <thuat_toan_moi>.py
-calibration/        # calibrate.py + calib_<ds>_<mult>.json (ξ per-dataset)
-experiments/        # config.py, run_coordinator.py, watchdog.sh
-results/            # kết quả MỚI: result_<ds>_<method>.json, progress_<ds>.json, summary.csv
-docs/REUSE_KIT/     # tài liệu gốc dữ liệu/hạ tầng kế thừa (tham chiếu)
+W = {A:0.9, B:0.4, C:0.7, D:0.5, E:0.2}   (chưa /10)
+D: T1=ACDE  T2=BCE  T3=ACD  T4=ABCE  T5=ACDE  T6=BDE
+W_total = 16/5 = 3.2 ;  ws(AC) = 0.75
+FWI(0.55) = {A,C,D,E, AC,AD,CD,CE, ACD}   (9)
+S = {AC,CE} ; ~S = {A,C,D,E, AD,CD,ACD}
+SCov(C)=2 ; NSCov(D)=4 ; NSCov(E)=1
+ScoreHFP: A=0.9, C=1.4(max), E=0.2, D=0   → HFPriority victim = C
+ScoreMCP: B=1.0, E=0.5, A=0.25, C=0.25, D=0.2
 ```
+Kết quả BẮT BUỘC tái tạo (khớp CHÍNH XÁC tập itemset, không chỉ con số tổng):
+- **HFPriority** — `C@T3 → C@T1` : `HF=0` ; mất NSFWI {C, CD, ACD} (MC=3/7) ; `AC=0`.
+- **MCPriority `safe_check=True`, TID order** — `E@T1 → C@T2 → C@T4` ; nước tiếp không safe → no-op
+  dừng ; còn lộ {AC} (`HF=1/2`) ; `MC=0` ; `AC=0`.
+- **MCPriority `safe_check=False`, TID order** — `E@T1 → E@T2 → A@T3` ; `HF=0` ; mất {A, AD, ACD, E}
+  (MC=4/7) ; `AC=0`.
 
-## 3. LỆNH THƯỜNG DÙNG
-
-```bash
-# Môi trường
-python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-
-# Calibrate ξ per-dataset (chạy lại cho ĐỊNH NGHĨA MỚI — không tái dùng pattern đóng băng cũ)
-python calibration/calibrate.py
-
-# Chạy thực nghiệm QUA coordinator (KHÔNG chạy script thuật toán trần)
-python experiments/run_coordinator.py
-
-# Xem tiến độ (pgrep là sự thật, không dựa log mtime)
-pgrep -f run_coordinator && tail -4 results/progress_*.json
+**Safe fixture (BẮT BUỘC riêng — golden KHÔNG bắt được lỗi reduced-check `Safe`):**
 ```
+W = {A:2/5, B:1/10, C:4/5, D:2/5} , ξ = 11/25 , D = {T1:AB, T2:BD, T3:ABC}
+S = {ABC} , ~S = {A,AB,AC,B,BC,C}
+Safe(B, T2): full-check → False (AC,BC,C tụt 13/28→2/5) ; reduced "chỉ ns⊆T2" → True (SAI)
+```
+> Sai lệch bất kỳ tập itemset nào = code sai. `Safe` phải kiểm **toàn bộ ~S** (fixture trên chứng minh
+> vì sao "chỉ ns⊆T_k" hỏng).
 
-## 4. QUY ƯỚC BẮT BUỘC (chắt từ bài học dự án cũ)
-
-- **Chạy ô TUẦN TỰ** (song song chỉ trong 1 ô) → runtime defensible, không tranh tài nguyên.
-- **Checkpoint + commit/push mỗi ô.** Resume tự SKIP ô đã xong (idempotent). MỘT git writer =
-  coordinator.
-- **CHẠY THẬT, không suy luận.** Không "ghi-theo-verify" baseline (baseline có thể đổi theo tham số).
-- **RT = wall-clock chỉ pha xử lý chính**, chốt TRƯỚC khi eval/re-mine. Eval không có deadline.
-- **Metric utility tổng quát tái dùng:** MC/AC/DUS/IUS/TMR/DDI (đo tác động biến đổi DB). HF là
-  ĐẶC THÙ bài ẩn cũ → BỎ hoặc định nghĩa lại cho bài mới.
-- **Job dài chạy nền chịu rớt SSH:** `setsid nohup ... & disown`, verify PPID=1. Watchdog auto-restart.
-- **Quy trình 3 bước trước mẻ lớn:** chuẩn bị (verify lưới ô + logging đủ cột) → smoke (ô khó nhất)
-  → phóng. KHÔNG phóng mù.
-
-## 5. RANH GIỚI — KHÔNG ĐỤNG / KHÔNG MANG (từ dự án cũ)
-
-- **KHÔNG mang logic bài cũ:** RISWU, SWM (`_apply_swm_to_hide`), SDIF/Max/Min-RISWU, Sub-Alg 3.4,
-  baseline SMSE/MSU-MIU bản-adapt-cũ, HF, SFWUP đóng băng. Baseline mới → adapt LẠI từ gốc literature.
-- **KHÔNG mang kết quả/số liệu bài cũ** (final_results, GĐ1/GĐ2, escalation/stress CSV) — sẽ nhầm
-  là kết quả bài mới.
-- **KHÔNG tái dùng danh sách pattern đóng băng** (calib/sfwups cũ). Giá trị **ξ chuẩn** (tham số
-  dataset) thì tham khảo được, nhưng phải **re-mine** pattern theo định nghĩa MỚI.
-- **KHÔNG rebase/force/amend** trên branch đang chạy thực nghiệm.
-- **KHÔNG commit** log runtime/cache/lock (xem .gitignore). Checkpoint JSON thì PHẢI commit.
-
-## 6. DATASET (dùng lại — chi tiết ở docs/REUSE_KIT/01_DATASET.md)
-
-7 dataset, đọc bằng `src/data_loader.py` (format `item:qty` / `item:weight`, item là string key).
-Dense: chess/mushroom/accident. Sparse: retail/kosarak/chainstore/bms-pos. bms-pos là bản ĐÃ LÀM
-SẠCH (515,596 giao dịch — dùng bản .txt sạch, không đọc CSV gốc). Dataset lớn nạp hết vào RAM
-(cần ≥16GB). Thống kê đầy đủ + quirk: xem docs/REUSE_KIT/01_DATASET.md.
-
-## 7. CẦN CHỐT KHI KHỞI TẠO (đánh dấu từ REUSE_KIT)
-
-- [ ] chainstore ξ chuẩn: 0.007 (config cũ) vs 0.003 (results cũ) — chốt số cho bài mới.
-- [ ] requirements.txt: pin version (numpy, psutil tối thiểu; openpyxl nếu xuất xlsx).
-- [ ] Định nghĩa "đối tượng quan tâm" của bài mới (thay SFWUP cũ) → calib lại theo đó.
-- [ ] Nếu cần calibrate/pipeline bms-pos: lấy script từ branch cũ (exp/sensitivity-hide-eval,
-      fix/bms-pos-data).
+### B.7 Prompt cho chính agent
+Khi được giao việc: viết rõ phạm vi, output ra FILE, in 1 dòng xác nhận rồi DỪNG, nêu rõ "KHÔNG đụng
+cái gì". Gặp điểm cần quyết định ngoài Q1–Q10 / SPEC §3 → DỪNG, ghi vào mục "CẦN QUYẾT ĐỊNH", không tự
+quyết. Không bịa số; số nào cũng phải truy về output thật.
