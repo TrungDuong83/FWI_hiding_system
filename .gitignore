@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+# Log runtime (checkpoint đã commit mới là dữ liệu thật)
+logs/*.log
+**/*.log
+# Cache mining (regenerate tự động)
+**/fwi_cache_*.json
+# Coordinator live-log + lock (single git writer = coordinator)
+coordinator/*.log
+coordinator/.*.lock
