@@ -4,7 +4,8 @@
   "HFPriority",
   "MCPriority_safeT",
   "MCPriority_safeF",
-  "MSU-MAU"
+  "MSU-MAU",
+  "MSU-MIU"
  ],
- "attempts": 4
+ "attempts": 5
 }
