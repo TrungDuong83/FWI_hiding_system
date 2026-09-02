@@ -87,8 +87,15 @@ def check(ds, rec, remine):
 
     gc2 = all(len(X) >= 2 and ws(X) > xi_frac for X in sfwi)
     ok &= gc2
+
+    # G-C3 (cheap, rigorous cho MỌI dataset): max|X| trong FWI đã freeze < CAP ⇒ cap KHÔNG cắt
+    # (nếu itemset dài nhất < cap thì miner dừng tự nhiên, không bị maxlen chặn ⇒ 0 FWI dài bị rớt).
+    maxlen_frozen = max((len(x) for x in rec["fwi"]), default=0)
+    gc3 = maxlen_frozen < CAP
+    ok &= gc3
     print(f"[{ds}] G-C1 #FWI={rec['n_fwi']}∈[50,300] & #SFWI={rec['n_sfwi']}==clamp({rec['n_candidate']})"
-          f"={_clamp(rec['n_candidate'])} → {gc1} ; G-C2 |X|≥2∧ws>ξ → {gc2}")
+          f"={_clamp(rec['n_candidate'])} → {gc1} ; G-C2 |X|≥2∧ws>ξ → {gc2} ; "
+          f"G-C3 max|X|(fwi)={maxlen_frozen}<CAP={CAP} → {gc3}")
 
     if remine:
         # G-C3: mine cap cao hơn → #FWI không đổi (0 FWI dài rớt)
@@ -97,10 +104,10 @@ def check(ds, rec, remine):
         sets_hi = fwi_itemsets(mine_fwi(D, Wf, xi))
         miner.config.MAX_PATTERN_LENGTH = CAP
         maxlen = max((len(x) for x in sets_hi), default=0)
-        gc3 = (len(sets_hi) == rec["n_fwi"])
-        ok &= gc3
-        print(f"[{ds}] G-C3 mine cap={hi}: #FWI={len(sets_hi)} == frozen {rec['n_fwi']} → {gc3} "
-              f"(max|X|={maxlen}{' >7 !' if maxlen > 7 else ' ≤7'})")
+        gc3b = (len(sets_hi) == rec["n_fwi"])
+        ok &= gc3b
+        print(f"[{ds}] G-C3+ re-mine cap={hi}: #FWI={len(sets_hi)} == frozen {rec['n_fwi']} → {gc3b} "
+              f"(max|X|={maxlen})")
 
         # G-C4: freeze+select lại 2 lần → cùng kết quả
         nodes = mine_fwi(D, Wf, xi)
