@@ -24,8 +24,8 @@
 Code cho bài **"Efficient Methods for Hiding Frequent Weighted Itemsets"** (IEEE IoT Journal,
 resubmit). Hai thuật toán ẩn FWI bằng **item deletion**: **HFPriority** (ưu tiên ẩn nhanh, Max-Conflict
 strategy) và **MCPriority** (ưu tiên bảo toàn NSFWI, Min-Side-Effect strategy). Kế thừa **mining engine
-PART 3** (**weighted N-list / SWU-N-list**, nguồn [21]; port từ v38, đã vá 2 lỗi `tw`+intersection
-theo SPEC_PART3_FIX, verify bằng golden+brute-force) + 7 dataset FIMI mở rộng.
+PART 3** (**weighted N-list / SWU-N-list** [21] Bui/Vo ESWA 2018; N-list gốc [22] Deng 2012 —
+**KHÔNG phải WIT-tree**, đã xác minh bằng code v38) + 7 dataset FIMI mở rộng.
 
 > **Nguyên nhân gốc bài bị reject:** code ≠ pseudocode ≠ văn xuôi. Repo này code LẠI cho khớp bài (bản
 > lý thuyết đã sửa, khóa trên v3_7). Mọi thay đổi phải làm giảm — không tăng — độ lệch này.
@@ -57,7 +57,7 @@ theo SPEC_PART3_FIX, verify bằng golden+brute-force) + 7 dataset FIMI mở r�
 | Q6 | Giữ kết quả trung thực dù xấu. KHÔNG diễn giải ngược. |
 | Q7 | Thêm ≥1 **IoT dataset tĩnh**. Chạy lại toàn bộ. |
 | Q8 | Chạy lại **TOÀN BỘ trên 1 máy GCP** (RT một nguồn). |
-| Q9 | **GIỮ engine mining PART 3** (weighted N-list). Gỡ Colab + sửa ĐÚNG 2 chỗ (`tw`, `swunl_intersection`) theo SPEC_PART3_FIX; KHÔNG đụng logic mining khác. |
+| Q9 | **GIỮ engine mining PART 3** (weighted N-list [21]). Gỡ Colab + 2 fix theo SPEC_PART3_FIX (Fix A `tw` bỏ qty, Fix B `swunl_intersection`); ngoài đó KHÔNG đụng logic (đồng bộ B.4). |
 | Q10 | Baseline: adapt **PPUM-HUIM** hiding, cấp ngân sách công bằng. |
 
 ### B.3 Ràng buộc thuật toán (correctness invariants)
@@ -67,18 +67,19 @@ theo SPEC_PART3_FIX, verify bằng golden+brute-force) + 7 dataset FIMI mở r�
   score cao nhất **có mặt trong chính giao dịch đó**. Score là per-item (precompute), nhưng quyết định
   là per-(item, txn). KHÔNG cài "một victim toàn cục xóa khỏi nhiều giao dịch".
 - **|X| ≥ 2** cho mọi SFWI (cấm singleton) ⇒ giao dịch không bao giờ rỗng sau xóa. **w(i) > 0** ngặt.
-- **"Xóa 1, dừng":** với mỗi giao dịch, xóa tới khi giao dịch không còn chứa SFWI mục tiêu thì dừng
-  giao dịch đó — không xóa hết item. **"Ẩn" = ws(X) < ξ, KHÔNG phải count = 0.**
+- **Một deletion mỗi lần thăm giao dịch:** mỗi lần vào một giao dịch xóa **nhiều nhất 1 item** rồi
+  sang giao dịch khác; chỉ quay lại giao dịch đó ở **pass While sau**. KHÔNG cài loop-nhiều-xóa-trong
+  -một-visit. **"Ẩn" = ws(X) < ξ, KHÔNG phải count = 0.**
 - **Tie-break: id tăng dần (numeric).** item-id nhỏ hơn thắng; TID nhỏ hơn xử trước. Dùng
   `int(v) if v.isdigit() else v` — dataset FIMI id số, sort chuỗi sẽ sai ("10" < "2").
 - **MCPriority chỉ thực hiện SAFE deletion** (`Safe` kiểm **toàn bộ ~S**) + dừng bằng **no-op** minh
   bạch (SPEC §3.3). KHÔNG fallback, KHÔNG hy sinh NSFWI. Chấp nhận HF>0 để giữ MC=0.
 
 ### B.4 Ranh giới — KHÔNG ĐỤNG
-- **KHÔNG đụng logic mining PART 3** (weighted N-list / SWU-N-list). Gỡ phụ thuộc Colab (I/O) + sửa
-  **ĐÚNG 2 chỗ theo SPEC_PART3_FIX**: (1) dòng tính `tw` (bỏ qty — sửa định nghĩa); (2)
-  `swunl_intersection_optimized` (giao tidset — sửa bug over-prune k≥3). KHÔNG chạm gì khác trong
-  PART 3 (`find_fwi_*`, tree build, traversal). Mọi thay đổi PART 3 ngoài 2 chỗ này → DỪNG, "CẦN QUYẾT ĐỊNH".
+- **KHÔNG đụng logic mining PART 3** (weighted N-list/SWU-N-list). Chỉ gỡ phụ thuộc Colab (I/O). Hai
+  chỗ mining được chạm (đã áp trong Đợt A, theo SPEC_PART3_FIX): **Fix A** dòng `tw` bỏ `*qty` (sửa
+  định nghĩa); **Fix B** `swunl_intersection_optimized` → giao tidset (sửa bug over-prune k≥3 làm rớt
+  ~504/584 FWI ở chess@0.90). Ngoài hai fix này, mọi logic traversal giữ nguyên.
 - **GIỮ metric HF.** Bài FWI DÙNG HF (khác dự án SFWUP cũ đã bỏ HF). Đừng nghe kit cũ bảo bỏ HF.
 - **CHỈ 4 metric:** HF, MC, AC, RT. **KHÔNG port IUS/DUS/TMR/DDI** từ repo cũ (dựa TU=Σw·qty, sai định
   nghĩa FWI; số cũ >21000% đã chứng minh không đáng tin).

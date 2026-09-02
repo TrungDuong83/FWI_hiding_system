@@ -18,9 +18,9 @@ FWI_hiding_system/
 │                                    #   NUM_WORKERS=4, seed=42, cờ order/safe_check; RUN_ORDER fast→slow
 │
 ├── src/
-│   ├── mining/                     # PART 3 — gỡ Colab + 2 fix SPEC_PART3_FIX, KHÔNG đổi logic khác (Q9)
-│   │   └── miner.py                #   weighted N-list/SWU-N-list FWI miner [21] (port từ v38; gỡ Colab;
-│   │                               #   sửa 2 chỗ theo SPEC_PART3_FIX: tw bỏ qty + swunl_intersection tidset)
+│   ├── mining/                     # PART 3 — chỉ gỡ Colab, KHÔNG đổi logic (Q9)
+│   │   └── miner.py                #   weighted N-list/SWU-N-list FWI miner [21] (port v38; bỏ Colab;
+│   │                               #   2 fix Đợt A: A tw bỏ qty, B swunl_intersection giao tidset)
 │   ├── hiding/
 │   │   ├── common.py               #   tw / ws / delete / inverted index / backend số  (SPEC §2)
 │   │   ├── select_victim.py        #   helper two-stage ĐÃ KHÓA (Việc 0 chốt — SPEC §3.5)
@@ -53,13 +53,9 @@ FWI_hiding_system/
 ├── logs/                           # live-log (đã .gitignore)
 ├── figures/                        # hình cho bài
 │
-├── tests/
-│   └── oracle_bruteforce.py        # G6 oracle độc lập (Apriori tidset; KHÔNG import engine)
-│
 └── docs/
     ├── CONTEXT_HANDOFF_PHA2.md
     ├── SPEC_PART4_HIDING.md         # deliverable 2
-    ├── SPEC_PART3_FIX.md            # sửa engine PART 3 đúng 2 chỗ (tw + swunl_intersection)
     ├── CHUNG_MINH_A1_A3_C5.md       # chứng minh lý thuyết — CÓ SẴN trong project
     └── FORMALISM_COMPLEXITY_V0_B2_B3_C.md   # complexity — CÓ SẴN trong project
 ```
@@ -106,6 +102,10 @@ coordinator/.*.lock
 khi sửa tw (bỏ qty) + /10, cùng một ξ số sẽ ra **số FWI khác hẳn**. → phải **recalibrate** ξ per-dataset
 theo định nghĩa FWI mới; ξ cũ chỉ là điểm khởi đầu tham khảo. chainstore: ξ cũ lệch nguồn (0.007 config
 vs 0.003 csv) — bỏ, calibrate lại từ đầu.
+
+> **Cap `MAX_PATTERN_LENGTH=7` (miner):** an toàn ở ξ cao (G6 xanh). Ở ξ thấp (thực nghiệm) có thể **rớt
+> FWI dài >7** — cùng loại "silent drop" như bug Fix B. Khi calibrate ξ **phải chạy oracle `maxlen>7`**
+> để chắc không bỏ sót; nếu có → nâng cap hoặc ghi rõ giới hạn trong bài.
 
 ---
 

@@ -7,16 +7,19 @@
 ---
 
 ## 0. Phạm vi & nguyên tắc
-Sửa **PART 4** (hiding) + **2 chỗ trong mining (`tw` + `swunl_intersection_optimized` — xem SPEC_PART3_FIX)** + **bước chuẩn hóa weight /10** + **metrics
-FWI**. Không đụng logic mining PART 3 (ngoài 2 fix trong SPEC_PART3_FIX). Tách module để test độc lập; mỗi hàm có tiêu chí verify.
-Golden test §6 là chuẩn cuối — code chưa tái tạo được golden thì chưa coi là xong.
+Sửa **PART 4** (hiding) + **bước chuẩn hóa weight /10** + **metrics FWI**. Engine PART 3 = **weighted
+N-list / SWU-N-list [21]** (N-list gốc [22]) — **KHÔNG phải WIT-tree**; giữ nguyên logic, chỉ gỡ Colab.
+Engine đã áp **2 fix (control duyệt):** **Fix A** (tw bỏ qty) + **Fix B** (`swunl_intersection_optimized`
+giao tidset — vá over-prune k≥3 làm rớt ~504/584 FWI @ chess 0.90). Tách module để test độc lập; mỗi
+hàm có tiêu chí verify. Golden test §6 là chuẩn cuối — code chưa tái tạo được golden thì chưa coi là xong.
 
 ---
 
 ## 1. Module tách
 ```
 src/
-├── mining/            # PART 3 — chỉ gỡ Colab, KHÔNG đổi logic (Q9)
+├── mining/            # PART 3 = weighted N-list/SWU-N-list [21] (KHÔNG WIT-tree); gỡ Colab
+│                       #   + 2 fix engine đã áp: Fix A (tw bỏ qty), Fix B (intersection over-prune)
 ├── hiding/
 │   ├── common.py      # tw / ws / delete / inverted index / backend số  §2
 │   ├── select_victim.py   # helper two-stage dùng chung hai thuật toán  §3.5
@@ -110,7 +113,7 @@ $$\text{Safe}(v,T_k) \iff \forall\, ns\in \tilde S :\ ws'(ns)\ge\xi$$
 ```
 Input: D, S (|X|≥2), ~S, ξ, safe_check∈{T,F}, order∈{mc_tid,tw_desc} ; ScoreMCP (precomputed)
 1  While (∃ s∈S : ws(s) ≥ ξ):
-2      T_sensitive = { T_k | ∃ s∈S : s⊆T_k ∧ ws(s)≥ξ }           # chỉ SFWI còn lộ
+2      T_sensitive = { T_k | ∃ s∈S : s⊆T_k ∧ ws(s)≥ξ }           # chỉ SFWI CÒN LỘ (filter — xem ⚑)
 3      order=mc_tid  → duyệt theo TID (KHÔNG sort)     # D1 — cấu hình chính thức
        order=tw_desc → sort tw giảm (tie TID↑)          # dành ablation E5
 4      movedThisPass = false
@@ -121,7 +124,7 @@ Input: D, S (|X|≥2), ~S, ξ, safe_check∈{T,F}, order∈{mc_tid,tw_desc} ; Sc
 9              delete(victim, T_k) ; movedThisPass = true
 10             If (∀ s∈S : ws(s) < ξ): break
 11     If (not movedThisPass): break        # NO-OP minh bạch → DỪNG (HF>0 hợp lệ)
-Output: sanitized D    # safe_check=True: có thể còn s lộ (HF>0) NHƯNG MC=0, AC=0 BY CONSTRUCTION
+Output: sanitized D    # safe_check=True: có thể còn s lộ (HF>0); MC=0 BY CONSTRUCTION (Safe). AC=0 KHÔNG đảm bảo (xem ghi chú)
 ```
 
 **Hàm `Safe(v, T_k, ~S, ξ)` — đặc tả đầy đủ (điểm chết người, spec rõ để không tái diễn code≠bài):**
@@ -152,6 +155,11 @@ Safe_oracle` trên golden + fixture §6.
 
 - **Escalation = NO-OP (dòng 11):** mọi candidate bị Safe chặn ⇒ DỪNG, nhận HF>0. Không fallback,
   không hy sinh NSFWI — giữ MCPriority ở cực "MC=0".
+- **⚠️ MC=0 by construction; AC=0 KHÔNG.** `Safe` chỉ chặn NSFWI **tụt** dưới ξ ⇒ MC=0 đảm bảo. Nhưng
+  nước xóa cần thiết vẫn dịch `W_total` (Theorem 1) ⇒ có thể đẩy non-FWI **vượt** ξ ⇒ phantom ⇒ AC>0,
+  ngay cả với filter + safe_check=True. Phản ví dụ (verified): `W={A:.7,B:.4,C:.8,D:.5,E:.1},
+  D={CE,ACDE,ABE,ADE}, ξ=0.56, S={AE}` → xóa `E@T2` (cần thiết, qua Safe) → phantom {AD,C,D}, AC=3/5.
+  **Bài phải phát biểu: MC=0 by construction, AC=0 là kết quả thực nghiệm** (không by construction).
 - **Log bắt buộc:** #no-op-stop, #candidate bị Safe chặn (cột cho bảng thực nghiệm E0).
 - **Termination:** Φ giảm HOẶC full-pass-no-move ⇒ break; tối đa Φ(D₀)+1 iteration.
 - **Complexity (từ FORMALISM §B2):**
@@ -197,10 +205,10 @@ nghĩa FWI.
 ```
 - Áp cho **cả mining lẫn re-mine** (tính metric). Loader giữ nguyên (vẫn đọc qty), qty chỉ **bị bỏ
   qua** ở bước tính `tw`. Dataset có qty>1 vẫn nạp được.
-- **Ranh giới Q9:** đây là **sửa định nghĩa** (bài định nghĩa `tw=Σw/|T|`, code cũ thêm qty = bug),
-  không phải đổi thuật toán mining (**weighted N-list / SWU-N-list**). Đây là **1 trong 2** chỗ được
-  chạm mining — chỗ còn lại là `swunl_intersection_optimized` (giao tidset, sửa bug over-prune k≥3),
-  xem **SPEC_PART3_FIX.md**; mọi logic traversal khác giữ nguyên.
+- **Ranh giới Q9:** đây là **sửa định nghĩa** (bài định nghĩa `tw=Σw/|T|`, code cũ thêm qty = bug).
+  Đây là **Fix A**. Engine (weighted N-list/SWU-N-list) còn một fix nữa đã áp trong Đợt A — **Fix B**:
+  `swunl_intersection_optimized` over-prune k≥3 làm rớt ~504/584 FWI (chess@0.90) → sửa thành giao
+  tidset. Cả hai theo SPEC_PART3_FIX; ngoài đó mọi logic traversal giữ nguyên.
 
 **Chuẩn hóa /10 (Q4):** `W = {i: raw/10}`. Bất biến chứng minh được: `ws = Σtw / W_total`; nhân mọi
 `w` với hằng `k` ⇒ tử và mẫu cùng nhân `k` ⇒ `ws` không đổi ⇒ **FWI set y hệt ∀ξ**. Mine trước/sau
@@ -285,9 +293,24 @@ Ngoài lề, không chặn PART 4:
 Các mục §7 draft cũ đã đóng: Việc 0 (per-item/per-txn), tối ưu Safe (toàn ~S), ordering (TID), denom
 AC (|FWI(san)|), số mũ complexity (từ FORMALISM), kiểu số production (float64+round3).
 
+### ⚑ CẦN QUYẾT ĐỊNH thêm — từ handoff conversation thực thi
+
+- **⚑ Fix #1 (filter `T_sensitive`) — ĐỀ NGHỊ KHÔNG ÁP.** Handoff đề xuất bỏ filter `∧ ws(s)≥ξ` để
+  khớp Algorithm 1/2 (không filter). Verify độc lập (control): golden bất biến NHƯNG off-golden bỏ
+  filter gây **xóa thừa** — 49/15000 ca đổi số deletion, **4/15000 ca đổi metric** (có ca `HF` lật
+  0↔1/2, có ca `AC` đổi). Filter là **guard đúng**, không phải divergence. → Giữ filter ở MCPriority;
+  và vì nhất quán, **thêm cùng filter vào HFPriority §3.2** (hiện thiếu). Để code==bài, **sửa BÀI**:
+  Algorithm 1&2 ghi rõ IdentifyTransactions trả giao dịch còn chứa ≥1 SFWI **frequent** (`ws(s)≥ξ`).
+  **Không tự áp — chờ control chốt hướng (giữ filter + sửa bài) hay literal-pseudocode.**
+- **MAX_PATTERN_LENGTH=7 cap:** an toàn ở ξ cao (G6). Ở ξ thấp (thực nghiệm) có thể **rớt FWI dài >7**.
+  Khi calibrate ξ phải chạy oracle `maxlen>7` để chắc không bỏ sót; nếu có → nâng cap hoặc ghi rõ giới
+  hạn trong bài. (Cùng loại rủi ro "silent drop" như bug Fix B — phải kiểm.)
+- **§V CŨ VÔ HIỆU:** engine trước Fix B rớt ~504/584 FWI ⇒ mọi HF/MC/AC/RT + Fig 1–7 cũ **không dùng
+  được**, phải chạy lại toàn bộ §V sau khi vá. (Ghi để track viết; không phải deliverable code.)
+
 ---
 
-## 8. Trình bày thuật toán cho bản thảo (EN, giọng tác giả — sẵn cho conversation viết)
+## 8. Trình bày thuật toán cho bản thảo (EN, giọng tác giả) — TRACK VIẾT (không phải deliverable code)
 
 > Bám thuật ngữ §IV v3_7: *Max-Conflict / Min-Side-Effect strategy, victim pair (T_k, v), safe state,
 > look-ahead, clean itemsets, inverted index*. Dùng cho §IV.C — chỉnh nhẹ khi ghép vào bài.
@@ -323,8 +346,12 @@ simulated over the whole database and accepted only when every non-sensitive ite
 transaction, because deleting a light item raises `W_total` and can push a non-sensitive itemset that
 lies elsewhere below the threshold. When a full pass yields no admissible deletion, MCPriority halts
 rather than sacrifice a clean itemset — an explicit no-op that may leave some sensitive itemsets
-exposed, so that `HF > 0`, while guaranteeing by construction that both the Missing Cost and the
-Artificial Cost are zero.
+exposed, so that `HF > 0`, while guaranteeing by construction that the Missing Cost is zero. The
+Artificial Cost, in contrast, is not eliminated by construction: the safe-deletion test screens only
+for non-sensitive itemsets that would fall below `ξ`, whereas the same coupling through `W_total`
+established in Theorem 1 can lift a currently non-frequent itemset above the threshold. A zero
+Artificial Cost is therefore reported as an empirical outcome on the benchmark datasets rather than a
+structural guarantee.
 
 **Threshold convention (for Experimental Setup).** Weighted supports are computed in double precision
 and an itemset is declared frequent when its support, rounded to three decimal places, is at least `ξ`;
