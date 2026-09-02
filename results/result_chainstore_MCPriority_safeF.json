@@ -1,0 +1,15 @@
+{
+ "dataset": "chainstore",
+ "method": "MCPriority_safeF",
+ "xi": 0.003,
+ "HF": 0.0,
+ "MC": 0.0,
+ "AC": 0.0,
+ "RT_hiding_s": 369.411,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 29304,
+ "AC_remine_s": 377.497,
+ "source": "vm",
+ "status": "ok"
+}

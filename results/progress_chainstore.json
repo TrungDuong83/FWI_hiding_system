@@ -2,7 +2,8 @@
  "dataset": "chainstore",
  "done": [
   "HFPriority",
-  "MCPriority_safeT"
+  "MCPriority_safeT",
+  "MCPriority_safeF"
  ],
- "attempts": 2
+ "attempts": 3
 }

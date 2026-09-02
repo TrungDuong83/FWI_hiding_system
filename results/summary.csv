@@ -1,3 +1,4 @@
 dataset,method,xi,HF,MC,AC,RT_hiding_s,n_noop,n_safe_blocked,n_deletions,AC_remine_s,source,status
 chainstore,HFPriority,0.003,0.0,0.0,0.0,174.107,,,23474,336.036,vm,ok
 chainstore,MCPriority_safeT,0.003,1.0,0.0,0.0,7200.0,1,0,4388,370.179,vm,timeout
+chainstore,MCPriority_safeF,0.003,0.0,0.0,0.0,369.411,0,0,29304,377.497,vm,ok
