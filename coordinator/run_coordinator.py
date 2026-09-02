@@ -19,6 +19,13 @@ Guard __main__. Chạy nền: setsid nohup ... & disown (PLAYBOOK §3.1).
 """
 import os
 import sys
+
+# Determinism: float sum over set-ordered tids phụ thuộc thứ tự hash str ⇒ cố định hash seed
+# (round(ws,3) ở biên có thể lệch 1 deletion nếu seed đổi). Re-exec 1 lần với PYTHONHASHSEED=0.
+if os.environ.get("PYTHONHASHSEED") != "0":
+    os.environ["PYTHONHASHSEED"] = "0"
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
 import json
 import csv
 import time
@@ -154,7 +161,9 @@ def run_cell(ds, tf, wf, method, D, Wf, calib):
         hf = float(hiding_failure(db, S, xi, round3=True))
         mc = float(missing_cost(db, NS, xi, round3=True))
         if method in ("MCPriority_safeT", "MCPriority_safeF"):
-            n_noop = 1 if hf > 0 else 0                        # dừng bằng no-op ⟺ còn SFWI lộ
+            # n_noop chỉ có nghĩa khi chạy xong (dừng bằng no-op ⟺ còn SFWI lộ). Timeout ⇒ không phải
+            # no-op (bị cap tài nguyên) ⇒ để null.
+            n_noop = None if status == "timeout" else (1 if hf > 0 else 0)
         # AC re-mine (SAU RT, KHÔNG deadline)
         t_ac = time.perf_counter()
         fwi_san = fwi_itemsets(mine_fwi(db.D, Wf, xi))
