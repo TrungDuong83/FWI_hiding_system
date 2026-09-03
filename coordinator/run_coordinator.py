@@ -156,7 +156,7 @@ def run_cell(ds, tf, wf, method, D, Wf, calib):
            "n_noop": None, "n_safe_blocked": None, "n_deletions": None,
            "AC_remine_s": None, "source": HOST, "status": "error"}
     try:
-        db = HidingDB(D, Wf)                                   # float64 production, fresh mỗi cell
+        db = HidingDB(D, Wf, track=S + NS)                    # float64 production; num_cache O(1) ws/Safe
         rt, status, n_del, n_noop, n_safe_blocked = run_hiding(method, db, S, NS, xi)
         hf = float(hiding_failure(db, S, xi, round3=True))
         mc = float(missing_cost(db, NS, xi, round3=True))
