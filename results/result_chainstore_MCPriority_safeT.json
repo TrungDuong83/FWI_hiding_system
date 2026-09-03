@@ -2,14 +2,14 @@
  "dataset": "chainstore",
  "method": "MCPriority_safeT",
  "xi": 0.003,
- "HF": 1.0,
+ "HF": 0.0,
  "MC": 0.0,
  "AC": 0.0,
- "RT_hiding_s": 7200.0,
- "n_noop": 1,
+ "RT_hiding_s": 5.385,
+ "n_noop": 0,
  "n_safe_blocked": 0,
- "n_deletions": 4388,
- "AC_remine_s": 370.179,
+ "n_deletions": 29304,
+ "AC_remine_s": 310.823,
  "source": "vm",
- "status": "timeout"
+ "status": "ok"
 }
