@@ -60,15 +60,21 @@ def is_safe(db, v, tk, NS, xi, round3=False) -> bool:
     Wp = db.W_total + (tw_new - tw_old)        # W'_total
     if Wp <= 0:
         return False
+    nc = db.num_cache                          # num_cache[ns]=O(1) nếu ns được track (SPEC §3.3)
     for ns in NS:
-        cov = db.cover(ns)
-        num = sum(db.tw_cache[t] for t in cov)
-        if tk not in cov:                      # ns ⊄ T_k : T_k không đóng góp
-            nump = num
+        base = nc.get(ns) if nc else None
+        if base is not None:                   # đường incremental — O(1)/ns
+            in_cover = ns <= D_tk              # tk ∈ cover(ns) ⟺ ns ⊆ D[tk]
+        else:                                  # fallback O(cover) — y hệt bản oracle (db không track)
+            cov = db.cover(ns)
+            base = sum(db.tw_cache[t] for t in cov)
+            in_cover = tk in cov
+        if not in_cover:                       # ns ⊄ T_k : T_k không đóng góp
+            nump = base
         elif v not in ns:                      # T_k vẫn ⊇ ns : đổi tw
-            nump = num - tw_old + tw_new
+            nump = base - tw_old + tw_new
         else:                                  # v∈ns : T_k rời cover(ns)
-            nump = num - tw_old
+            nump = base - tw_old
         if not is_frequent(nump / Wp, xi, round3):
             return False
     return True
