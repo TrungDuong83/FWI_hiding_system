@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.pyc
+.venv/
 # Log runtime (checkpoint đã commit mới là dữ liệu thật)
 logs/*.log
 **/*.log
