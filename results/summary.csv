@@ -70,6 +70,7 @@ retail,MCPriority_safeF,0.8,0.006,sweep,0.0,0.201571,0.003268,1.688,13.884,0,0,3
 retail,MSU-MAU,0.8,0.006,sweep,0.041667,0.243455,0.006849,61.133,16.511,,,17207,0,0,hshfwup-run,ok
 retail,MSU-MIU,0.8,0.006,sweep,0.0,0.183246,0.009524,0.538,16.137,,,13993,0,0,hshfwup-run,ok
 retail,HFPriority,1.2,0.01,sweep,0.0,0.159722,0.0,0.394,4.047,,,12911,0,0,hshfwup-run,ok
+retail,MCPriority_safeT,1.2,0.01,sweep,0.1,0.0,0.0,2.838,3.517,1,48344,16050,8,0,hshfwup-run,ok
 bms-pos,HFPriority,0.4,0.008,sweep,0.0,0.286448,0.0,5.728,302.994,,,36362,1,0,hshfwup-run,ok
 bms-pos,MCPriority_safeT,0.4,0.008,sweep,0.8,0.0,0.0,553.095,306.178,1,2441592,27184,115,0,hshfwup-run,ok
 bms-pos,MCPriority_safeF,0.4,0.008,sweep,0.0,0.465639,0.0,22.113,270.202,0,0,140705,2,0,hshfwup-run,ok
