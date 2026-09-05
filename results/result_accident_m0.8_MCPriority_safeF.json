@@ -1,0 +1,19 @@
+{
+ "dataset": "accident",
+ "method": "MCPriority_safeF",
+ "mult": 0.8,
+ "xi": 0.601,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.847774,
+ "AC": 0.003135,
+ "RT_hiding_s": 837.63,
+ "AC_remine_s": 97.375,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 1787884,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
