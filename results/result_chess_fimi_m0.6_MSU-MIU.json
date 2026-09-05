@@ -1,0 +1,19 @@
+{
+ "dataset": "chess_fimi",
+ "method": "MSU-MIU",
+ "mult": 0.6,
+ "xi": 0.552,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.274311,
+ "AC": 0.001722,
+ "RT_hiding_s": 61.566,
+ "AC_remine_s": 160.274,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 254,
+ "n_boundary": 11,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
