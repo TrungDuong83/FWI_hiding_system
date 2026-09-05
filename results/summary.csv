@@ -36,6 +36,7 @@ mushroom,MSU-MAU,0.8,0.366,sweep,0.0,0.544854,0.0,13.459,0.935,,,3463,0,0,hshfwu
 mushroom,MSU-MIU,0.8,0.366,sweep,0.0,0.513692,0.003868,0.792,0.751,,,3948,0,0,hshfwup-run,ok
 mushroom,HFPriority,1.2,0.548,sweep,0.0,0.359551,0.0,0.118,0.233,,,2740,0,0,hshfwup-run,ok
 mushroom,MCPriority_safeT,1.2,0.548,sweep,1.0,0.0,0.0,6.388,0.254,1,474504,3849,12,0,hshfwup-run,ok
+mushroom,MCPriority_safeF,1.2,0.548,sweep,0.0,0.741573,0.0,0.956,0.135,0,0,22821,0,0,hshfwup-run,ok
 bms-pos,HFPriority,0.4,0.008,sweep,0.0,0.286448,0.0,5.728,302.994,,,36362,1,0,hshfwup-run,ok
 bms-pos,MCPriority_safeT,0.4,0.008,sweep,0.8,0.0,0.0,553.095,306.178,1,2441592,27184,115,0,hshfwup-run,ok
 bms-pos,MCPriority_safeF,0.4,0.008,sweep,0.0,0.465639,0.0,22.113,270.202,0,0,140705,2,0,hshfwup-run,ok
