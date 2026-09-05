@@ -1,0 +1,19 @@
+{
+ "dataset": "bms-pos",
+ "method": "HFPriority",
+ "mult": 1.6,
+ "xi": 0.034,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.130435,
+ "AC": 0.0,
+ "RT_hiding_s": 1.848,
+ "AC_remine_s": 33.067,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 52412,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
