@@ -10,8 +10,8 @@ KHÔNG IUS/DUS/TMR/DDI (dựa TU=Σw·qty, sai định nghĩa FWI).
 
 - HF/MC recompute `ws` trên DB đã sanitize qua `common.HidingDB.ws` ⇒ dùng **W_total hiện tại**
   (Bẫy #1). `S` đóng băng từ DB gốc; `~S` = FWI(orig) \ S đóng băng từ DB gốc.
-- Membership: golden/calibration = exact (`ws ≥ ξ`, Fraction); production = `round(ws,3) ≥ ξ` (float64)
-  → tham số `round3`.
+- Membership: `ws ≥ ξ` TRỰC TIẾP cho cả golden/calibration (Fraction exact) và production (float64).
+  Control 2026-09 BỎ `round(ws,3)` (gây vùng bóng làm-tròn-lên → mismatch sau hiding). `round3` vô hiệu.
 - AC re-mine ĐẦY ĐỦ bằng `miner.mine_fwi` (do CALLER thực hiện, truyền vào 2 tập itemset). Module này
   thuần: chỉ tiêu thụ `db` (duck-typed `.ws`) + các tập frozenset ⇒ không phụ thuộc miner/common.
 
@@ -29,9 +29,12 @@ def _ratio(num: int, den: int) -> Fraction:
 
 
 def is_frequent(ws_val, xi, round3: bool = False) -> bool:
-    """FWI membership. round3=True: round(ws,3) ≥ ξ (production float64). Ngược lại exact."""
-    if round3:
-        return round(float(ws_val), 3) >= xi
+    """FWI membership = **ws ≥ ξ** trực tiếp (float64 production HOẶC Fraction exact).
+
+    Control (2026-09) BỎ round(·,3): `round(ws,3) ≥ ξ` tạo vùng bóng [ξ−5e-4, ξ) làm-tròn-LÊN →
+    sau hiding itemset có exact ws<ξ bị coi là frequent ⇒ mismatch + MC=0 chỉ đúng theo round3.
+    Nhiễu float ~3e-11 ≪ mọi ngưỡng ⇒ so thẳng `ws ≥ ξ` an toàn và nhất quán hiding↔metric↔exact.
+    Tham số `round3` GIỮ để tương thích chữ ký gọi cũ nhưng KHÔNG còn làm tròn (vô hiệu)."""
     return ws_val >= xi
 
 

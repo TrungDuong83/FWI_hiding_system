@@ -66,7 +66,7 @@ import calibrate as CAL                                                   # noqa
 
 miner.config.MAX_PATTERN_LENGTH = 20            # AC re-mine + derive đầy đủ (khớp calibration; >7)
 HIDING_DEADLINE_S = 7200                        # 2h/cell CHỈ pha hiding. AC re-mine KHÔNG deadline.
-BOUNDARY_BAND = 0.0015                          # |round3(ws_float)−ξ| ≤ band ⇒ audit exact Fraction
+BOUNDARY_BAND = 1e-6                            # |ws_float−ξ| ≤ band ⇒ audit float-decision vs exact Fraction
 HOST = socket.gethostname()
 
 DS_FILES = {
@@ -206,9 +206,10 @@ def run_hiding(method, db, S, NS, xi):
 
 def boundary_audit(db, universe, xi, Wfrac):
     """
-    Audit float round3 vs Fraction exact tại biên ξ trên DB đã tẩy.
-    n_boundary = #itemset có |round3(ws_float)−ξ| ≤ band ; n_boundary_mismatch = #trong đó quyết định
-    membership round3 ≠ exact Fraction. mismatch>0 ⇒ backend float sai ở biên ⇒ caller DỪNG.
+    Audit float64 vs Fraction exact tại biên ξ trên DB đã tẩy (membership = ws ≥ ξ, KHÔNG round3).
+    n_boundary = #itemset có |ws_float − ξ| ≤ 1e-6 (thật sự sát ξ) ; n_boundary_mismatch = #trong đó
+    quyết định `ws_float ≥ ξ` ≠ `ws_exact ≥ ξ`. Kỳ vọng 0 (float≈exact ~3e-11). mismatch>0 ⇒ có itemset
+    nằm trong 1e-6 của ξ mà float lệch exact ⇒ caller DỪNG báo control (ca thật, hiếm).
     """
     Wtot = Fraction(0)
     twf = {}
@@ -222,12 +223,12 @@ def boundary_audit(db, universe, xi, Wfrac):
     n_boundary = 0
     n_mismatch = 0
     for X in universe:
-        r = round(float(db.ws(X)), 3)
-        if abs(r - xi) <= BOUNDARY_BAND:
+        w = float(db.ws(X))
+        if abs(w - xi) <= BOUNDARY_BAND:
             n_boundary += 1
             cov = db.cover(X)
             wf = (sum(twf[t] for t in cov) / Wtot) if Wtot else Fraction(0)
-            if (r >= xi) != (wf >= xi_frac):
+            if (w >= xi) != (wf >= xi_frac):
                 n_mismatch += 1
     return n_boundary, n_mismatch
 
