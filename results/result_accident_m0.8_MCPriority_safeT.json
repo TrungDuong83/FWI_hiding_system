@@ -1,0 +1,19 @@
+{
+ "dataset": "accident",
+ "method": "MCPriority_safeT",
+ "mult": 0.8,
+ "xi": 0.601,
+ "kind": "sweep",
+ "HF": 0.875,
+ "MC": 0.0,
+ "AC": 0.0,
+ "RT_hiding_s": 7200.0,
+ "AC_remine_s": 589.59,
+ "n_noop": null,
+ "n_safe_blocked": 14317999,
+ "n_deletions": 27189,
+ "n_boundary": 19,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "timeout"
+}
