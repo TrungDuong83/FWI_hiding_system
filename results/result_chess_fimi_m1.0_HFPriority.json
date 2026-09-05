@@ -1,0 +1,19 @@
+{
+ "dataset": "chess_fimi",
+ "method": "HFPriority",
+ "mult": 1.0,
+ "xi": 0.92,
+ "kind": "main",
+ "HF": 0.0,
+ "MC": 0.584906,
+ "AC": 0.0,
+ "RT_hiding_s": 0.306,
+ "AC_remine_s": 0.179,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 3246,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
