@@ -1,0 +1,19 @@
+{
+ "dataset": "mushroom",
+ "method": "MSU-MAU",
+ "mult": 1.2,
+ "xi": 0.548,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.359551,
+ "AC": 0.0,
+ "RT_hiding_s": 13.766,
+ "AC_remine_s": 0.233,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 2739,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
