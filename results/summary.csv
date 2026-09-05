@@ -13,6 +13,7 @@ chess_fimi,HFPriority,0.8,0.736,sweep,0.0,0.334497,0.001205,3.299,12.251,,,238,0
 chess_fimi,MCPriority_safeT,0.8,0.736,sweep,1.0,0.0,0.00016,95.784,16.25,1,78352,9,0,0,hshfwup-run,ok
 chess_fimi,MCPriority_safeF,0.8,0.736,sweep,0.0,0.790553,0.0,90.507,3.584,0,0,8087,0,0,hshfwup-run,ok
 chess_fimi,MSU-MAU,0.8,0.736,sweep,0.0,0.385304,0.00163,5.063,11.375,,,311,2,0,hshfwup-run,ok
+chess_fimi,MSU-MIU,0.8,0.736,sweep,0.0,0.328277,0.000895,2.976,10.94,,,221,0,0,hshfwup-run,ok
 mushroom,HFPriority,0.4,0.183,sweep,0.0,0.515277,0.009968,60.306,3.648,,,3734,0,0,hshfwup-run,ok
 mushroom,MCPriority_safeT,0.4,0.183,sweep,1.0,0.0,0.0,60.262,6.416,1,98978,320,14,0,hshfwup-run,ok
 mushroom,MCPriority_safeF,0.4,0.183,sweep,0.0,0.474667,0.001259,60.704,4.134,0,0,3814,0,0,hshfwup-run,ok
