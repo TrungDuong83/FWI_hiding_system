@@ -7,3 +7,4 @@ bms-pos,MSU-MIU,0.4,0.008,sweep,0.05,0.273603,0.007011,5.984,290.904,,,42054,2,0
 kosarak,HFPriority,0.4,0.004,sweep,0.0,0.361605,0.0,10.507,324.081,,,50846,1,0,hshfwup-run,ok
 kosarak,MCPriority_safeT,0.4,0.004,sweep,0.675,0.0,0.0,592.119,328.363,1,1604388,46329,126,0,hshfwup-run,ok
 kosarak,MCPriority_safeF,0.4,0.004,sweep,0.0,0.37938,0.0,34.388,287.358,0,0,155128,2,0,hshfwup-run,ok
+kosarak,MSU-MAU,0.4,0.004,sweep,0.125,0.309294,0.0,1281.275,314.322,,,58136,3,0,hshfwup-run,ok

@@ -1,0 +1,19 @@
+{
+ "dataset": "kosarak",
+ "method": "MSU-MAU",
+ "mult": 0.4,
+ "xi": 0.004,
+ "kind": "sweep",
+ "HF": 0.125,
+ "MC": 0.309294,
+ "AC": 0.0,
+ "RT_hiding_s": 1281.275,
+ "AC_remine_s": 314.322,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 58136,
+ "n_boundary": 3,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
