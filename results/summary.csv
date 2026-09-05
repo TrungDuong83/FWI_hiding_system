@@ -131,6 +131,7 @@ kosarak,MSU-MAU,0.4,0.004,sweep,0.125,0.309294,0.0,1281.275,314.322,,,58136,3,0,
 kosarak,MSU-MIU,0.4,0.004,sweep,0.0,0.283393,0.007736,6.422,320.518,,,34793,2,0,hshfwup-run,ok
 kosarak,HFPriority,0.6,0.007,sweep,0.0,0.357265,0.0,9.063,97.067,,,115061,1,0,hshfwup-run,ok
 kosarak,MCPriority_safeT,0.6,0.007,sweep,0.55,0.0,0.001645,299.141,97.115,1,2555670,119621,81,0,hshfwup-run,ok
+kosarak,MCPriority_safeF,0.6,0.007,sweep,0.0,0.488889,0.0,26.22,71.536,0,0,294969,1,0,hshfwup-run,ok
 accident,HFPriority,0.8,0.601,sweep,0.0,0.41168,0.002435,46.142,367.927,,,63549,0,0,hshfwup-run,ok
 accident,MCPriority_safeT,0.8,0.601,sweep,0.875,0.0,0.0,7200.0,589.59,,14317999,27189,19,0,hshfwup-run,timeout
 accident,MCPriority_safeF,0.8,0.601,sweep,0.0,0.847774,0.003135,837.63,97.375,0,0,1787884,0,0,hshfwup-run,ok

@@ -1,0 +1,19 @@
+{
+ "dataset": "kosarak",
+ "method": "MCPriority_safeF",
+ "mult": 0.6,
+ "xi": 0.007,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.488889,
+ "AC": 0.0,
+ "RT_hiding_s": 26.22,
+ "AC_remine_s": 71.536,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 294969,
+ "n_boundary": 1,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
