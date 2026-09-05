@@ -5,3 +5,4 @@ chess_fimi,MCPriority_safeF,0.6,0.552,sweep,0.0,0.76515,0.003034,1709.535,47.085
 chess_fimi,MSU-MAU,0.6,0.552,sweep,0.0,0.321997,0.001823,88.37,156.445,,,394,3,0,hshfwup-run,ok
 chess_fimi,MSU-MIU,0.6,0.552,sweep,0.0,0.274311,0.001722,61.566,160.274,,,254,11,0,hshfwup-run,ok
 mushroom,HFPriority,0.4,0.183,sweep,0.0,0.515277,0.009968,60.306,3.648,,,3734,0,0,hshfwup-run,ok
+mushroom,MCPriority_safeT,0.4,0.183,sweep,1.0,0.0,0.0,60.262,6.416,1,98978,320,14,0,hshfwup-run,ok
