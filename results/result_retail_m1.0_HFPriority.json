@@ -1,0 +1,19 @@
+{
+ "dataset": "retail",
+ "method": "HFPriority",
+ "mult": 1.0,
+ "xi": 0.008,
+ "kind": "main",
+ "HF": 0.0,
+ "MC": 0.189427,
+ "AC": 0.0,
+ "RT_hiding_s": 0.519,
+ "AC_remine_s": 7.025,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 14961,
+ "n_boundary": 1,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
