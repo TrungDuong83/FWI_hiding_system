@@ -2,3 +2,4 @@ dataset,method,mult,xi,kind,HF,MC,AC,RT_hiding_s,AC_remine_s,n_noop,n_safe_block
 bms-pos,HFPriority,0.4,0.008,sweep,0.0,0.286448,0.0,5.728,302.994,,,36362,1,0,hshfwup-run,ok
 bms-pos,MCPriority_safeT,0.4,0.008,sweep,0.8,0.0,0.0,553.095,306.178,1,2441592,27184,115,0,hshfwup-run,ok
 bms-pos,MCPriority_safeF,0.4,0.008,sweep,0.0,0.465639,0.0,22.113,270.202,0,0,140705,2,0,hshfwup-run,ok
+bms-pos,MSU-MAU,0.4,0.008,sweep,0.075,0.291586,0.0,627.631,296.022,,,35060,2,0,hshfwup-run,ok
