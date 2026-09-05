@@ -121,6 +121,7 @@ bms-pos,MSU-MAU,1.6,0.034,sweep,0.1,0.076087,0.0,1574.232,33.232,,,41145,1,0,hsh
 bms-pos,MSU-MIU,1.6,0.034,sweep,0.2,0.086957,0.0,1.089,32.915,,,46561,1,0,hshfwup-run,ok
 kosarak,HFPriority,1.0,0.011,main,0.0,0.360996,0.0,7.107,44.327,,,171432,1,0,hshfwup-run,ok
 kosarak,MCPriority_safeT,1.0,0.011,main,0.318182,0.0,0.0,121.873,42.911,1,1997422,226448,41,0,hshfwup-run,ok
+kosarak,MCPriority_safeF,1.0,0.011,main,0.0,0.427386,0.0,19.944,33.345,0,0,399854,1,0,hshfwup-run,ok
 kosarak,HFPriority,0.4,0.004,sweep,0.0,0.361605,0.0,10.507,324.081,,,50846,1,0,hshfwup-run,ok
 kosarak,MCPriority_safeT,0.4,0.004,sweep,0.675,0.0,0.0,592.119,328.363,1,1604388,46329,126,0,hshfwup-run,ok
 kosarak,MCPriority_safeF,0.4,0.004,sweep,0.0,0.37938,0.0,34.388,287.358,0,0,155128,2,0,hshfwup-run,ok
