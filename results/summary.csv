@@ -2,6 +2,7 @@ dataset,method,mult,xi,kind,HF,MC,AC,RT_hiding_s,AC_remine_s,n_noop,n_safe_block
 chess_fimi,HFPriority,1.0,0.92,main,0.0,0.584906,0.0,0.306,0.179,,,3246,0,0,hshfwup-run,ok
 chess_fimi,MCPriority_safeT,1.0,0.92,main,0.821429,0.0,0.0,5.666,0.322,1,109286,215,3,0,hshfwup-run,ok
 chess_fimi,MCPriority_safeF,1.0,0.92,main,0.0,0.864151,0.0,1.865,0.117,0,0,18919,0,0,hshfwup-run,ok
+chess_fimi,MSU-MAU,1.0,0.92,main,0.0,0.554717,0.0,0.611,0.194,,,251,0,0,hshfwup-run,ok
 chess_fimi,HFPriority,0.6,0.552,sweep,0.0,0.330989,0.002178,88.59,166.496,,,378,6,0,hshfwup-run,ok
 chess_fimi,MCPriority_safeT,0.6,0.552,sweep,1.0,0.0,0.0,191.39,191.453,1,48262,0,0,0,hshfwup-run,ok
 chess_fimi,MCPriority_safeF,0.6,0.552,sweep,0.0,0.76515,0.003034,1709.535,47.085,0,0,7915,0,0,hshfwup-run,ok
