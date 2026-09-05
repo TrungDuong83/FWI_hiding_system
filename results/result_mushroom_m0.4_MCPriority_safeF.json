@@ -1,0 +1,19 @@
+{
+ "dataset": "mushroom",
+ "method": "MCPriority_safeF",
+ "mult": 0.4,
+ "xi": 0.183,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.474667,
+ "AC": 0.001259,
+ "RT_hiding_s": 60.704,
+ "AC_remine_s": 4.134,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 3814,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
