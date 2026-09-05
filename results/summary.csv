@@ -12,3 +12,4 @@ mushroom,MSU-MIU,0.4,0.183,sweep,0.0,0.300967,0.000249,10.878,6.103,,,696,0,0,hs
 accident,HFPriority,0.8,0.601,sweep,0.0,0.41168,0.002435,46.142,367.927,,,63549,0,0,hshfwup-run,ok
 accident,MCPriority_safeT,0.8,0.601,sweep,0.875,0.0,0.0,7200.0,589.59,,14317999,27189,19,0,hshfwup-run,timeout
 accident,MCPriority_safeF,0.8,0.601,sweep,0.0,0.847774,0.003135,837.63,97.375,0,0,1787884,0,0,hshfwup-run,ok
+accident,MSU-MAU,0.8,0.601,sweep,0.625,0.147439,0.0,7200.0,522.227,,,13770,0,0,hshfwup-run,timeout
