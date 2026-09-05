@@ -1,0 +1,19 @@
+{
+ "dataset": "retail",
+ "method": "MSU-MIU",
+ "mult": 1.0,
+ "xi": 0.008,
+ "kind": "main",
+ "HF": 0.0,
+ "MC": 0.185022,
+ "AC": 0.005376,
+ "RT_hiding_s": 0.362,
+ "AC_remine_s": 6.726,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 12957,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
