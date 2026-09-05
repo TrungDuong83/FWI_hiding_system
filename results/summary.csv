@@ -1,2 +1,3 @@
 dataset,method,mult,xi,kind,HF,MC,AC,RT_hiding_s,AC_remine_s,n_noop,n_safe_blocked,n_deletions,n_boundary,n_boundary_mismatch,source,status
 chess_fimi,HFPriority,0.6,0.552,sweep,0.0,0.330989,0.002178,88.59,166.496,,,378,6,0,hshfwup-run,ok
+chess_fimi,MCPriority_safeT,0.6,0.552,sweep,1.0,0.0,0.0,191.39,191.453,1,48262,0,0,0,hshfwup-run,ok
