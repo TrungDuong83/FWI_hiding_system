@@ -82,6 +82,7 @@ DS_ORDER = ["chess_fimi", "mushroom", "retail", "bms-pos", "kosarak", "accident"
 METHODS = ["HFPriority", "MCPriority_safeT", "MCPriority_safeF", "MSU-MAU", "MSU-MIU"]
 SWEEP_EXCLUDE_DS = {"chainstore"}                # control: bỏ chainstore khỏi sweep (round3 collapse)
 SMOKE_POINTS = [("chess_fimi", 0.6), ("mushroom", 0.4), ("accident", 0.8)]   # cell nặng nhất
+DERISK_POINTS = [("bms-pos", 0.4), ("kosarak", 0.4)]                          # |D| lớn, ξ thấp nhất (cover dày)
 
 
 # ------------------------------ cell spec (data-driven từ grid) ------------------------------
@@ -89,12 +90,12 @@ def mtag(mult):
     return f"{mult:.1f}"
 
 
-def build_points(smoke=False, ds_filter=None):
+def build_points(smoke=False, derisk=False, ds_filter=None):
     """Trả list điểm (ds, mult, xi, kind). kind∈{main,sweep}. Data-driven từ sweep_grid.json."""
     grid = json.load(open(os.path.join(CALIB, "sweep_grid.json")))
-    if smoke:
+    if smoke or derisk:
         pts = []
-        for ds, mult in SMOKE_POINTS:
+        for ds, mult in (SMOKE_POINTS if smoke else DERISK_POINTS):
             p = next(p for p in grid[ds] if abs(p["mult"] - mult) < 1e-9)
             pts.append((ds, mult, p["xi"], "sweep"))
         return pts
@@ -316,12 +317,13 @@ def git_checkpoint(msg):
 # ------------------------------ main ------------------------------
 def main(argv):
     smoke = "--smoke" in argv
+    derisk = "--derisk" in argv
     ds_filter = None
     if "--ds" in argv:
         i = argv.index("--ds")
         ds_filter = argv[i + 1:]
-    points = build_points(smoke=smoke, ds_filter=ds_filter)
-    print(f"[coord] {'SMOKE' if smoke else 'FULL'} {len(points)} điểm × {len(METHODS)} method "
+    points = build_points(smoke=smoke, derisk=derisk, ds_filter=ds_filter)
+    print(f"[coord] {'SMOKE' if smoke else 'DERISK' if derisk else 'FULL'} {len(points)} điểm × {len(METHODS)} method "
           f"= {len(points)*len(METHODS)} cell", flush=True)
     for (ds, mult, xi, kind) in points:
         print(f"[{ds}/m{mtag(mult)}] ({kind}) load D/W ξ={xi}…", flush=True)
