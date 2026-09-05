@@ -1,0 +1,19 @@
+{
+ "dataset": "bms-pos",
+ "method": "MSU-MIU",
+ "mult": 1.4,
+ "xi": 0.029,
+ "kind": "sweep",
+ "HF": 0.1,
+ "MC": 0.134328,
+ "AC": 0.0,
+ "RT_hiding_s": 1.591,
+ "AC_remine_s": 42.862,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 53510,
+ "n_boundary": 1,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
