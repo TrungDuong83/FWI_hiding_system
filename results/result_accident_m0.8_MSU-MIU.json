@@ -1,0 +1,19 @@
+{
+ "dataset": "accident",
+ "method": "MSU-MIU",
+ "mult": 0.8,
+ "xi": 0.601,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.390139,
+ "AC": 0.00313,
+ "RT_hiding_s": 29.093,
+ "AC_remine_s": 396.283,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 49743,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
