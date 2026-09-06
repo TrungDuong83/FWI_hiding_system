@@ -167,3 +167,4 @@ accident,MSU-MIU,0.8,0.601,sweep,0.0,0.390139,0.00313,29.093,396.283,,,49743,0,0
 accident,HFPriority,1.2,0.901,sweep,0.0,0.52381,0.0,13.179,8.849,,,362304,0,0,hshfwup-run,ok
 accident,MCPriority_safeT,1.2,0.901,sweep,0.0,0.0,0.0,25.179,13.86,0,2591397,54203,6,0,hshfwup-run,ok
 accident,MCPriority_safeF,1.2,0.901,sweep,0.0,0.52381,0.0,13.754,8.775,0,0,365115,0,0,hshfwup-run,ok
+accident,MSU-MAU,1.2,0.901,sweep,0.6,0.190476,0.0,7200.0,13.159,,,13345,0,0,hshfwup-run,timeout
