@@ -1,0 +1,19 @@
+{
+ "dataset": "chainstore",
+ "method": "MCPriority_safeF",
+ "mult": 1.0,
+ "xi": 0.003,
+ "kind": "main",
+ "HF": 0.0,
+ "MC": 0.0,
+ "AC": 0.0,
+ "RT_hiding_s": 1.508,
+ "AC_remine_s": 269.165,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 22301,
+ "n_boundary": 1,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}

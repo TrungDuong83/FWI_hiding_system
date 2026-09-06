@@ -171,3 +171,4 @@ accident,MSU-MAU,1.2,0.901,sweep,0.6,0.190476,0.0,7200.0,13.159,,,13345,0,0,hshf
 accident,MSU-MIU,1.2,0.901,sweep,0.0,0.428571,0.0,7.313,10.414,,,51151,0,0,hshfwup-run,ok
 chainstore,HFPriority,1.0,0.003,main,0.0,0.0,0.0,1.419,272.479,,,21409,1,0,hshfwup-run,ok
 chainstore,MCPriority_safeT,1.0,0.003,main,0.0,0.0,0.0,2.855,270.933,0,0,22301,1,0,hshfwup-run,ok
+chainstore,MCPriority_safeF,1.0,0.003,main,0.0,0.0,0.0,1.508,269.165,0,0,22301,1,0,hshfwup-run,ok
