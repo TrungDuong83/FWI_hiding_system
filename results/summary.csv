@@ -158,6 +158,7 @@ accident,HFPriority,1.0,0.751,main,0.0,0.616236,0.0,39.516,53.462,,,360753,0,0,h
 accident,MCPriority_safeT,1.0,0.751,main,0.785714,0.0,0.0,1654.883,109.27,1,26356925,68731,10,0,hshfwup-run,ok
 accident,MCPriority_safeF,1.0,0.751,main,0.0,0.859779,0.0,228.613,16.679,0,0,2034590,0,0,hshfwup-run,ok
 accident,MSU-MAU,1.0,0.751,main,0.678571,0.169742,0.0,7200.0,98.719,,,12990,0,0,hshfwup-run,timeout
+accident,MSU-MIU,1.0,0.751,main,0.0,0.538745,0.0,8.104,59.877,,,71166,1,0,hshfwup-run,ok
 accident,HFPriority,0.8,0.601,sweep,0.0,0.41168,0.002435,46.142,367.927,,,63549,0,0,hshfwup-run,ok
 accident,MCPriority_safeT,0.8,0.601,sweep,0.875,0.0,0.0,7200.0,589.59,,14317999,27189,19,0,hshfwup-run,timeout
 accident,MCPriority_safeF,0.8,0.601,sweep,0.0,0.847774,0.003135,837.63,97.375,0,0,1787884,0,0,hshfwup-run,ok
