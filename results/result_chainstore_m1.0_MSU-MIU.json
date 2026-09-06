@@ -1,0 +1,19 @@
+{
+ "dataset": "chainstore",
+ "method": "MSU-MIU",
+ "mult": 1.0,
+ "xi": 0.003,
+ "kind": "main",
+ "HF": 0.3,
+ "MC": 0.0,
+ "AC": 0.0,
+ "RT_hiding_s": 0.354,
+ "AC_remine_s": 275.966,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 10185,
+ "n_boundary": 5,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
