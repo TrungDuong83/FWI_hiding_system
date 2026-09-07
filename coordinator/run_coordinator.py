@@ -107,10 +107,16 @@ def build_points(smoke=False, derisk=False, ds_filter=None):
     for ds in DS_ORDER:
         if ds_filter and ds not in ds_filter:
             continue
-        # MAIN: mult=1.0 — IoT (không có trong grid) lấy ξ từ calib_<ds>.json
+        # MAIN: mult=1.0 — IoT lấy ξ từ calib_<ds>.json; SWEEP IoT từ sweep_grid_iot.json
         if ds in IOT_DS or ds not in grid:
             xi1 = json.load(open(os.path.join(CALIB, f"calib_{ds}.json")))["xi"]
             pts.append((ds, 1.0, xi1, "main"))
+            igrid_path = os.path.join(CALIB, "sweep_grid_iot.json")
+            if ds in IOT_DS and os.path.exists(igrid_path):
+                igrid = json.load(open(igrid_path))
+                for p in sorted(igrid.get(ds, []), key=lambda x: x["mult"]):
+                    if p["feasible"] == "ok" and abs(p["mult"] - 1.0) > 1e-9:
+                        pts.append((ds, p["mult"], p["xi"], "sweep"))
             continue
         p1 = next(p for p in grid[ds] if abs(p["mult"] - 1.0) < 1e-9)
         pts.append((ds, 1.0, p1["xi"], "main"))
@@ -141,8 +147,9 @@ def get_frozen(ds, mult, xi, D, Wf, Wfrac):
            "fwi": CAL._itemset_list([X for X, _ in fwi_ws]), "sfwi": CAL._itemset_list(S)}
     with open(path, "w") as f:
         json.dump(rec, f, indent=1)
-    # sanity: khớp grid counts
-    grid = json.load(open(os.path.join(CALIB, "sweep_grid.json")))
+    # sanity: khớp grid counts (IoT dùng sweep_grid_iot.json)
+    gfile = "sweep_grid_iot.json" if ds in IOT_DS else "sweep_grid.json"
+    grid = json.load(open(os.path.join(CALIB, gfile)))
     g = next(p for p in grid[ds] if abs(p["mult"] - mult) < 1e-9)
     assert rec["n_fwi"] == g["n_fwi"] and rec["n_sfwi"] == g["n_sfwi"] and rec["n_candidate"] == g["n_candidate"], \
         f"derive≠grid {ds} m{mult}: {rec['n_fwi']}/{rec['n_sfwi']}/{rec['n_candidate']} vs {g['n_fwi']}/{g['n_sfwi']}/{g['n_candidate']}"
