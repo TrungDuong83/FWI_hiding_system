@@ -1,4 +1,4 @@
-{"categorical":["Network Operator","Network Type","Band","Roaming","Location Status","Mobile Status","Level"],
- "continuous":["RSRP LTE","RSRQ LTE","RSSI LTE","SNR LTE","CQI LTE","ASU Level LTE","Latitude","Longitude","Downstream Bandwidth","Upstream Bandwidth"],
- "na_values":{"Latitude":["-1"],"Longitude":["-1"]},
+{"categorical":["Network Operator","Network Type","Band","Roaming","Mobile Status","Level"],
+ "continuous":["RSRP LTE","RSRQ LTE","RSSI LTE","SNR LTE","CQI LTE","ASU Level LTE","Longitude","Upstream Bandwidth"],
+ "na_values":{"Longitude":["-1"]},
  "txn_key":null}
