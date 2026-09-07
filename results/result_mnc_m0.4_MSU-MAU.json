@@ -1,0 +1,19 @@
+{
+ "dataset": "mnc",
+ "method": "MSU-MAU",
+ "mult": 0.4,
+ "xi": 0.082,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.184186,
+ "AC": 0.006163,
+ "RT_hiding_s": 6960.247,
+ "AC_remine_s": 390.73,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 38160,
+ "n_boundary": 24,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
