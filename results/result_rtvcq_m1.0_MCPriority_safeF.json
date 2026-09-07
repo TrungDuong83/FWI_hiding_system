@@ -1,0 +1,19 @@
+{
+ "dataset": "rtvcq",
+ "method": "MCPriority_safeF",
+ "mult": 1.0,
+ "xi": 0.057,
+ "kind": "main",
+ "HF": 0.0,
+ "MC": 0.513011,
+ "AC": 0.022388,
+ "RT_hiding_s": 3.212,
+ "AC_remine_s": 2.036,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 60537,
+ "n_boundary": 0,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
