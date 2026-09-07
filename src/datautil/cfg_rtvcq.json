@@ -1,0 +1,4 @@
+{"categorical":["Operator","Indoor_Outdoor_Travelling","Network Type","Rating","Call Drop Category","State Name"],
+ "continuous":["Latitude","Longitude"],
+ "na_values":{"Latitude":["-1"],"Longitude":["-1"]},
+ "txn_key":null}
