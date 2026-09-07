@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """IoT raw CSV -> transactional weighted DB (R1-R6), khớp format 7 dataset FIMI.
 R1 categorical->item ; R2 continuous->10 equal-width bins->item ; R4 txn_key gộp giao dịch
-(None => mỗi dòng 1 giao dịch) ; R5 qty=1 ; R6 weight uniform int[1,10] (file lưu NGUYÊN,
-khớp 7-dataset; loader normalize=10 → [0.1,1.0]) seed cố định.
+(None => mỗi dòng 1 giao dịch) ; R5 qty=1 ; R6 weight uniform int[1,10]/10 seed cố định.
 na_values: ô = missing (blank hoặc thuộc na_values[col]) => KHÔNG sinh item, KHÔNG tính vào range."""
 import csv, json, random, argparse
 from collections import defaultdict
@@ -44,11 +43,8 @@ def discretize(rows, cfg, n_bins=10):
     return tl, iid
 
 def gen_weights(iid, seed=42):
-    # KHỚP 7-dataset: file lưu weight NGUYÊN [1,10]; loader preprocess.load_weights(normalize=10)
-    # chia /10 → [0.1,1.0]. (Script cũ viết /10.0 = 0.1..1.0 vào file → loader /10 lần nữa = 0.01..0.10,
-    # lệch scale + phá use_fraction. Control precondition-3: sửa gen_weights cho khớp.)
     rnd=random.Random(seed)
-    return {i: rnd.randint(1,10) for i in iid.values()}
+    return {i: rnd.randint(1,10) for i in iid.values()}   # int[1,10]; loader normalize=10 -> [0.1,1.0] (khớp 7-dataset)
 
 def write(ds, tl, iid, w, outdir="."):
     with open(f"{outdir}/{ds}_quantities.txt","w") as f:
