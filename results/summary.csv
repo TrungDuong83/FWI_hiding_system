@@ -178,3 +178,4 @@ rtvcq,HFPriority,1.0,0.057,main,0.0,0.394052,0.012121,1.472,2.39,,,37795,0,0,hsh
 rtvcq,MCPriority_safeT,1.0,0.057,main,0.576923,0.0,0.0,30.69,2.968,1,556454,17122,11,0,hshfwup-run,ok
 rtvcq,MCPriority_safeF,1.0,0.057,main,0.0,0.513011,0.022388,3.212,2.036,0,0,60537,0,0,hshfwup-run,ok
 rtvcq,MSU-MAU,1.0,0.057,main,0.076923,0.260223,0.019512,166.873,2.725,,,22852,1,0,hshfwup-run,ok
+rtvcq,MSU-MIU,1.0,0.057,main,0.038462,0.297398,0.005236,1.047,2.509,,,23836,0,0,hshfwup-run,ok
