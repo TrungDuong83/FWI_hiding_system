@@ -200,6 +200,7 @@ rtvcq,MCPriority_safeF,1.2,0.068,sweep,0.0,0.492386,0.0,2.709,1.966,0,0,55876,0,
 rtvcq,MSU-MAU,1.2,0.068,sweep,0.210526,0.19797,0.0,153.923,2.616,,,18790,0,0,hshfwup-run,ok
 rtvcq,MSU-MIU,1.2,0.068,sweep,0.052632,0.187817,0.01227,0.759,2.562,,,16078,0,0,hshfwup-run,ok
 rtvcq,HFPriority,1.4,0.08,sweep,0.0,0.352201,0.0,0.892,2.104,,,31281,1,0,hshfwup-run,ok
+rtvcq,MCPriority_safeT,1.4,0.08,sweep,0.066667,0.0,0.0,9.6,2.314,1,220608,18161,5,0,hshfwup-run,ok
 mnc,HFPriority,1.0,0.204,main,0.0,0.455556,0.051613,42.387,75.686,,,720691,1,0,hshfwup-run,ok
 mnc,MCPriority_safeT,1.0,0.204,main,0.444444,0.0,0.0,1644.477,110.437,1,38283165,454309,30,0,hshfwup-run,ok
 mnc,MCPriority_safeF,1.0,0.204,main,0.0,0.666667,0.1,153.625,44.104,0,0,2418719,0,0,hshfwup-run,ok
