@@ -1,0 +1,19 @@
+{
+ "dataset": "mnc",
+ "method": "MCPriority_safeF",
+ "mult": 0.4,
+ "xi": 0.082,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.334832,
+ "AC": 0.003649,
+ "RT_hiding_s": 223.494,
+ "AC_remine_s": 347.482,
+ "n_noop": 0,
+ "n_safe_blocked": 0,
+ "n_deletions": 301257,
+ "n_boundary": 8,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
