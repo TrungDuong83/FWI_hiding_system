@@ -175,3 +175,4 @@ chainstore,MCPriority_safeF,1.0,0.003,main,0.0,0.0,0.0,1.508,269.165,0,0,22301,1
 chainstore,MSU-MAU,1.0,0.003,main,0.1,0.0,0.0,55.733,273.388,,,8952,4,0,hshfwup-run,ok
 chainstore,MSU-MIU,1.0,0.003,main,0.3,0.0,0.0,0.354,275.966,,,10185,5,0,hshfwup-run,ok
 rtvcq,HFPriority,1.0,0.057,main,0.0,0.394052,0.012121,1.472,2.39,,,37795,0,0,hshfwup-run,ok
+rtvcq,MCPriority_safeT,1.0,0.057,main,0.576923,0.0,0.0,30.69,2.968,1,556454,17122,11,0,hshfwup-run,ok
