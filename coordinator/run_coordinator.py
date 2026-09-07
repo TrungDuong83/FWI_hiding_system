@@ -77,8 +77,12 @@ DS_FILES = {
     "kosarak":    ("kosarak_quantities.txt",    "kosarak_weights.txt"),
     "accident":   ("accident_quantities.txt",   "accident_weights.txt"),
     "chainstore": ("chainstore_quantities.txt", "chainstore_weights.txt"),
+    "rtvcq":      ("rtvcq_quantities.txt",       "rtvcq_weights.txt"),         # IoT
+    "mnc":        ("mnc_quantities.txt",         "mnc_weights.txt"),           # IoT
 }
-DS_ORDER = ["chess_fimi", "mushroom", "retail", "bms-pos", "kosarak", "accident", "chainstore"]
+DS_ORDER = ["chess_fimi", "mushroom", "retail", "bms-pos", "kosarak", "accident", "chainstore",
+            "rtvcq", "mnc"]                       # IoT thêm cuối (MAIN-only, ξ operating từ calib)
+IOT_DS = {"rtvcq", "mnc"}                         # không có trong sweep_grid → chỉ MAIN (mult=1.0)
 METHODS = ["HFPriority", "MCPriority_safeT", "MCPriority_safeF", "MSU-MAU", "MSU-MIU"]
 SWEEP_EXCLUDE_DS = {"chainstore"}                # control: bỏ chainstore khỏi sweep (round3 collapse)
 SMOKE_POINTS = [("chess_fimi", 0.6), ("mushroom", 0.4), ("accident", 0.8)]   # cell nặng nhất
@@ -103,7 +107,11 @@ def build_points(smoke=False, derisk=False, ds_filter=None):
     for ds in DS_ORDER:
         if ds_filter and ds not in ds_filter:
             continue
-        # MAIN: mult=1.0
+        # MAIN: mult=1.0 — IoT (không có trong grid) lấy ξ từ calib_<ds>.json
+        if ds in IOT_DS or ds not in grid:
+            xi1 = json.load(open(os.path.join(CALIB, f"calib_{ds}.json")))["xi"]
+            pts.append((ds, 1.0, xi1, "main"))
+            continue
         p1 = next(p for p in grid[ds] if abs(p["mult"] - 1.0) < 1e-9)
         pts.append((ds, 1.0, p1["xi"], "main"))
         # SWEEP: ok, mult≠1.0, ds không bị loại
@@ -278,16 +286,17 @@ SUMMARY_COLS = ["dataset", "method", "mult", "xi", "kind", "HF", "MC", "AC", "RT
                 "n_boundary", "n_boundary_mismatch", "source", "status"]
 
 
-def write_progress(points):
-    done = sum(1 for (ds, mult, xi, kind) in points for m in METHODS
+def write_progress(points=None):
+    allpts = build_points()                         # FULL (mọi ds kể cả IoT) — summary luôn đủ 185
+    done = sum(1 for (ds, mult, xi, kind) in allpts for m in METHODS
                if os.path.exists(os.path.join(RESULTS, f"result_{ds}_m{mtag(mult)}_{m}.json")))
     with open(os.path.join(RESULTS, "progress_sectionV.json"), "w") as f:
-        json.dump({"total_cells": len(points) * len(METHODS), "done_cells": done}, f, indent=1)
+        json.dump({"total_cells": len(allpts) * len(METHODS), "done_cells": done}, f, indent=1)
 
 
-def write_summary(points):
+def write_summary(points=None):
     rows = []
-    for (ds, mult, xi, kind) in points:
+    for (ds, mult, xi, kind) in build_points():     # FULL, không lọc → summary.csv gồm mọi cell đã có
         for m in METHODS:
             p = os.path.join(RESULTS, f"result_{ds}_m{mtag(mult)}_{m}.json")
             if os.path.exists(p):
