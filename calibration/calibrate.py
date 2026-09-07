@@ -50,6 +50,8 @@ DATASETS = [                    # fast → slow (SPEC §6: tuần tự, checkpoi
     ("bms-pos",    "bms-pos_quantities.txt",    "bms-pos_weights.txt",    "0.100"),
     ("kosarak",    "kosarak_quantities.txt",    "kosarak_weights.txt",    "0.100"),
     ("chainstore", "chainstore_quantities.txt", "chainstore_weights.txt", "0.100"),
+    ("rtvcq",      "rtvcq_quantities.txt",      "rtvcq_weights.txt",      "0.900"),   # IoT (start cao: dò từ ξ cao xuống)
+    ("mnc",        "mnc_quantities.txt",        "mnc_weights.txt",        "0.900"),   # IoT (avg-len 17, dày)
 ]
 
 

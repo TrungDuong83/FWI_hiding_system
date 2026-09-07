@@ -10,3 +10,4 @@ logs/*.log
 # Coordinator live-log + lock (single git writer = coordinator)
 coordinator/*.log
 coordinator/.*.lock
+datasets/iot_raw/
