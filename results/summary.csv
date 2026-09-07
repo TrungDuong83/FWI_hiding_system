@@ -182,6 +182,7 @@ rtvcq,MSU-MIU,1.0,0.057,main,0.038462,0.297398,0.005236,1.047,2.509,,,23836,0,0,
 rtvcq,HFPriority,0.4,0.023,sweep,0.0,0.283985,0.011568,2.585,3.868,,,24433,0,0,hshfwup-run,ok
 rtvcq,MCPriority_safeT,0.4,0.023,sweep,0.675,0.0,0.0,111.032,4.433,1,561145,11548,29,0,hshfwup-run,ok
 rtvcq,MCPriority_safeF,0.4,0.023,sweep,0.0,0.438547,0.00495,4.763,3.276,0,0,42125,0,0,hshfwup-run,ok
+rtvcq,MSU-MAU,0.4,0.023,sweep,0.1,0.175047,0.010011,90.708,4.044,,,13865,2,0,hshfwup-run,ok
 mnc,HFPriority,1.0,0.204,main,0.0,0.455556,0.051613,42.387,75.686,,,720691,1,0,hshfwup-run,ok
 mnc,MCPriority_safeT,1.0,0.204,main,0.444444,0.0,0.0,1644.477,110.437,1,38283165,454309,30,0,hshfwup-run,ok
 mnc,MCPriority_safeF,1.0,0.204,main,0.0,0.666667,0.1,153.625,44.104,0,0,2418719,0,0,hshfwup-run,ok
