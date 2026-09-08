@@ -231,3 +231,4 @@ mnc,MSU-MAU,0.8,0.163,sweep,0.975,0.020134,0.0,7200.0,164.937,,,23564,0,0,hshfwu
 mnc,MSU-MIU,0.8,0.163,sweep,0.0,0.496644,0.006623,52.031,114.023,,,584366,1,0,hshfwup-run,ok
 mnc,HFPriority,1.2,0.245,sweep,0.0,0.39881,0.0,21.304,54.903,,,433010,1,0,hshfwup-run,ok
 mnc,MCPriority_safeT,1.2,0.245,sweep,0.625,0.0,0.0,2790.522,79.112,1,88844430,177028,17,0,hshfwup-run,ok
+mnc,MCPriority_safeF,1.2,0.245,sweep,0.0,0.660714,0.0,89.765,31.353,0,0,1859261,1,0,hshfwup-run,ok
