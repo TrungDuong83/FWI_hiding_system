@@ -1,0 +1,19 @@
+{
+ "dataset": "mnc",
+ "method": "MSU-MIU",
+ "mult": 1.4,
+ "xi": 0.286,
+ "kind": "sweep",
+ "HF": 0.0,
+ "MC": 0.379747,
+ "AC": 0.0,
+ "RT_hiding_s": 13.327,
+ "AC_remine_s": 34.338,
+ "n_noop": null,
+ "n_safe_blocked": null,
+ "n_deletions": 329794,
+ "n_boundary": 1,
+ "n_boundary_mismatch": 0,
+ "source": "hshfwup-run",
+ "status": "ok"
+}
