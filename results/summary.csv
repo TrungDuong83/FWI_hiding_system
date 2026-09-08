@@ -243,3 +243,4 @@ mnc,HFPriority,1.6,0.326,sweep,0.0,0.3125,0.0,14.151,25.081,,,434639,1,0,hshfwup
 mnc,MCPriority_safeT,1.6,0.326,sweep,0.6,0.0,0.0,405.958,32.643,1,26318023,441017,8,0,hshfwup-run,ok
 mnc,MCPriority_safeF,1.6,0.326,sweep,0.0,0.708333,0.0,55.357,12.142,0,0,1924490,0,0,hshfwup-run,ok
 mnc,MSU-MAU,1.6,0.326,sweep,0.9,0.041667,0.0,7200.0,34.287,,,10668,0,0,hshfwup-run,timeout
+mnc,MSU-MIU,1.6,0.326,sweep,0.1,0.416667,0.0,14.105,24.19,,,507505,0,0,hshfwup-run,ok
