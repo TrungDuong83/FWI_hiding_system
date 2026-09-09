@@ -18,9 +18,11 @@
 | rtvcq (IoT) | 63,336 | 76 | 7.25 | 8 | 9.54% | 0.057 | 295 | 26 |
 
 - **ξ/#FWI/#SFWI khớp CHÍNH XÁC 9 file `calib_<ds>.json`** (đối chiếu trước khi ghi — 0 lệch).
-- ⚠️ **mushroom = 8,416** (đếm thật từ file, = số mọi thí nghiệm + calib + G6 đã dùng). FIMI "chuẩn"
-  thường 8,124 → **lệch 292 dòng**. Kết quả nội bộ nhất quán trên 8,416. **Báo control:** giữ 8,416
-  (dữ liệu đã chạy) hay điều tra nguồn 292 dòng thừa? (KHÔNG tự đổi — van dừng mushroom.)
+- ✅ **mushroom = 8,416 — VAN DỪNG RESOLVED (control chốt: GIỮ 8,416, documented, KHÔNG dedup/re-run).**
+  Điều tra: 8,416 dòng = **8,124 item-set phân biệt + 292 record lặp item-set** (chỉ khác quantity — FWI
+  bỏ qua qty). 0 dòng trùng exact; distinct item-set = 8,124 = khớp mushroom FIMI chuẩn. Giữ 8,416
+  (row=transaction, đồng nhất như MNC giữ giao dịch trùng); mọi thí nghiệm §V + calib + G6 chạy trên 8,416.
+  Doc 01_DATASET §2 đã ghi rõ. KHÔNG đổi số/kết quả.
 
 ## A3. Phân phối weight 7-dataset (giải Blocker B2: bài ghi "normal")
 

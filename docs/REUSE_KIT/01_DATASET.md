@@ -66,9 +66,9 @@ chainstore/bms-pos/rtvcq. chess/mushroom/mnc/rtvcq có độ dài (gần) cố �
 discretize. MNC lặp cao: 736,974 dòng nhưng chỉ 204,338 (Model, Current Date Time) phân biệt (~72% trùng;
 txn_key=null ⇒ giữ nguyên row=txn).
 
-> ⚠️ **mushroom = 8,416 giao dịch** (đếm thật từ file, = số mọi thí nghiệm §V + calib + gate G6 đã dùng).
-> Mushroom FIMI "chuẩn" thường ghi 8,124 → **lệch 292 dòng** so với bản trong repo. Kết quả nội bộ nhất
-> quán trên 8,416; nêu để control quyết cách trình bày (giữ 8,416 = dữ liệu đã chạy).
+> ⚠️ **mushroom = 8,416 giao dịch = 8,124 item-set phân biệt + 292 record lặp item-set** (chỉ khác
+> quantity — FWI bỏ qua). Giữ 8,416 (row=transaction, đồng nhất mọi dataset như MNC giữ giao dịch trùng);
+> 8,124 = số item-set distinct, khớp mushroom FIMI chuẩn. Không dedup.
 
 ---
 
