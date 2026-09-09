@@ -63,5 +63,17 @@ uniform. → Scheme thật = **uniform int[1,10] / 10**. **KHÔNG phải normal.
 - `src/`: 9 module (hiding/metrics/mining/datautil) ✓
 - docs: 01_DATASET (mới), CLAUDE.md, SPEC_PART4… giữ nguyên ✓
 
-## B-RESULT
-(cập nhật sau squash: `git diff exp main` rỗng? main ahead 0? commit hash main)
+## B-RESULT (squash exp→main hoàn tất)
+- Squash `git merge --squash exp/v5-sectionV` trên worktree main sạch (ff origin/main 881c129 trước) →
+  **KHÔNG conflict** (additive). 369 files changed, +6,747,886 / −96 (−96 = doc-line 01_DATASET rewrite;
+  **0 FILE bị xóa**). Commit main = **`98e2f6a`**, pushed.
+- **VERIFY main (98e2f6a):**
+  - src 9 module ✓ · results/ 245 JSON + summary 245 dòng ✓ · calibration/ 9 calib + 2 sweep grid ✓ ·
+    datasets/ 9 quantities+weights ✓ · iot_raw (2 file) GIỮ trên main ✓ · 01_DATASET (FWI regime) ✓.
+  - **File cũ main giữ** (SPEC_BASELINE.md, SPEC_CALIBRATION.md — main-only, squash không xóa) ✓.
+  - `git diff exp main` cho **results/ + calibration/ + src/ + datasets(q/w) = RỖNG** (data/kết quả/code
+    identical). Khác biệt exp↔main chỉ: (a) `datasets/iot_raw/*` (tracked main, gitignore exp — expected);
+    (b) docs main-only/merged (SPEC_BASELINE/SPEC_CALIBRATION/SPEC_PART4/REPO_STRUCTURE — additive).
+  - **main ahead origin = 0; exp ahead origin = 0** (synced). KHÔNG rebase/force, KHÔNG xóa exp.
+
+**PACKAGING OK: main synced, 245 results, 9 calib**
