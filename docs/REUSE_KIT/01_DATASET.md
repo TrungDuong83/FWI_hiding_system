@@ -1,127 +1,140 @@
-# REUSE_KIT — 01 DATASET  ★ FILE QUAN TRỌNG NHẤT
+# REUSE_KIT — 01 DATASET  ★ FILE QUAN TRỌNG NHẤT (regime FWI, 9 dataset)
 
-Bài mới **dùng lại đúng 7 dataset này**. Toàn bộ số liệu dưới đây được **tính trực tiếp
-từ file dữ liệu thật** trên branch hiện tại (`datasets/*_quantities.txt`), không phải nhớ.
+> Bài **FWI hiding** (Frequent Weighted Itemset). Mọi số dưới đây **tính trực tiếp từ file thật**
+> (`datasets/*_quantities.txt`) và **ξ/#FWI/#SFWI lấy từ `calibration/calib_<ds>.json` đã freeze** —
+> không nhớ, không bịa. Regime = **weighted support** (KHÔNG utility). 9 dataset = 7 FIMI + 2 IoT.
 
 ---
 
-## 1. Danh sách dataset & file
+## 0. Regime FWI (định nghĩa lõi — KHÁC bản utility cũ)
+
+- **Transaction weight:** `tw(T) = ( Σ_{i∈T} w(i) ) / |T|` — trung bình cộng item-weight, **KHÔNG nhân
+  quantity**. Quantity trong file (`item:qty`) **bị bỏ qua** (Fix A của engine).
+- **W_total = Σ_T tw(T)** trên toàn bộ giao dịch.
+- **Weighted support:** `ws(X) = ( Σ_{T⊇X} tw(T) ) / W_total`.
+- **FWI:** X là FWI ⟺ **`ws(X) ≥ ξ`** (membership float64 trực tiếp, không round3).
+- SFWI (S) = itemset nhạy cảm cần ẩn; NSFWI (~S) = FWI \ S.
+- (Bài KHÔNG dùng TU=Σw·qty, KHÔNG DUS/IUS/utility — đó là dự án cũ.)
+
+---
+
+## 1. Danh sách dataset & file (9 dataset)
 
 Mỗi dataset gồm 2 file text định dạng **FIMI mở rộng**:
-- `<ds>_quantities.txt` — mỗi dòng = 1 giao dịch, token `item:quantity` cách nhau bởi space.
-  Ví dụ (bms-pos): `0:4 1:5 2:3 3:5 4:2 …`
-- `<ds>_weights.txt` — mỗi dòng = `item:weight` (trọng số item, dùng cho utility). Ví dụ: `1:10`.
+- `<ds>_quantities.txt` — mỗi dòng = 1 giao dịch, token `item:qty` cách nhau space (qty bị bỏ qua ở FWI).
+- `<ds>_weights.txt` — mỗi dòng `item:weight`, **weight = số nguyên [1,10]**; loader `load_weights(normalize=10)`
+  chia /10 → [0.1,1.0] ("item weight", KHÔNG phải external utility).
 
-| Dataset | File transactions | File weights | Nguồn/loại |
-|---|---|---|---|
-| chess | `chess_fimi_quantities.txt` | `chess_fimi_weights.txt` | FIMI dense (UCI chess) |
-| mushroom | `mushroom_quantities.txt` | `mushroom_weights.txt` | FIMI dense (UCI mushroom) |
-| bms-pos | `bms-pos_quantities.txt` | `bms-pos_weights.txt` | Click-stream POS (sparse) — **đã làm sạch, xem §4** |
-| retail | `retail_quantities.txt` | `retail_weights.txt` | Belgian retail (sparse) |
-| chainstore | `chainstore_quantities.txt` | `chainstore_weights.txt` | Chain-store (sparse, lớn) |
-| accident | `accident_quantities.txt` | `accident_weights.txt` | Traffic accident (dense, lớn) |
-| kosarak | `kosarak_quantities.txt` | `kosarak_weights.txt` | Hungarian news click-stream (sparse, lớn) |
+| Dataset | File | Nguồn/loại |
+|---|---|---|
+| chess_fimi | `chess_fimi_*` | FIMI dense (UCI chess) |
+| mushroom | `mushroom_*` | FIMI dense (UCI mushroom) |
+| bms-pos | `bms-pos_*` | Click-stream POS (sparse) — đã làm sạch, xem §4 |
+| retail | `retail_*` | Belgian retail (sparse) |
+| chainstore | `chainstore_*` | Chain-store (sparse, lớn) |
+| accident | `accident_*` | Traffic accident (dense, lớn) |
+| kosarak | `kosarak_*` | Hungarian news click-stream (sparse, lớn) |
+| **mnc** (IoT) | `mnc_*` | **Mobile Network Coverage** (DIB, DOI 10.1016/j.dib.2024.111146) — discretize 14/33 feature |
+| **rtvcq** (IoT) | `rtvcq_*` | **Voice Call Quality Experience** (TRAI/Kaggle, "Call Voice Quality Experience 2018-April") — discretize |
 
-Ba dataset lớn còn có bản nén nguồn: `datasets/accident.zip`, `chainstore.zip`, `kosarak.zip`.
-
----
-
-## 2. Thống kê mỗi dataset (ĐỌC TỪ FILE THẬT)
-
-Tính bằng cách quét từng dòng `*_quantities.txt`: đếm giao dịch, tập item phân biệt (phần
-trước dấu `:`), độ dài giao dịch, mật độ = avg_len / distinct_items.
-
-| Dataset | #Giao dịch | #Item phân biệt | Độ dài TB | Độ dài max | Mật độ | File qty |
-|---|---:|---:|---:|---:|---:|---:|
-| chess | 3,196 | 75 | 37.00 | 37 | 49.33% | 0.6 MB |
-| mushroom | 8,416 | 119 | 23.00 | 23 | 19.33% | 1.0 MB |
-| accident | 340,183 | 468 | 33.81 | 51 | 7.22% | 59.3 MB |
-| bms-pos | 515,596 | 1,657 | 6.53 | 164 | 0.39% | 17.9 MB |
-| retail | 88,162 | 16,470 | 10.31 | 76 | 0.063% | 6.0 MB |
-| kosarak | 990,002 | 41,270 | 8.10 | 2,498 | 0.020% | 48.9 MB |
-| chainstore | 1,112,949 | 46,086 | 7.23 | 170 | 0.016% | 62.4 MB |
-
-Đọc nhanh: **chess/mushroom/accident = dense** (mật độ cao, giao dịch dài đều), **retail/
-kosarak/chainstore/bms-pos = sparse** (nhiều item, giao dịch ngắn). chess & mushroom có độ
-dài cố định (37, 23) → dataset "horizontal" chuẩn để test thuật toán trên dữ liệu dày.
+**2 dataset IoT** sinh từ CSV thô (`datasets/iot_raw/`) qua `src/datautil/iot_discretize.py` (rule R1–R6):
+categorical→item; continuous→10 equal-width bins→item; **row = 1 giao dịch** (txn_key=null); qty=1;
+weight **uniform int[1,10]** (cùng scheme 7 FIMI). MNC bỏ cột **hằng** (Location Status) + **non-discriminative**
+(Latitude bin9=100%, Downstream Bandwidth bin0=99.48% — rule bin ≥99%) → 14 feature (6 cat + 8 cont).
+RTVCQ: 6 cat + 2 cont (Latitude/Longitude), na `-1` loại (không sinh item).
 
 ---
 
-## 3. Calibration — ngưỡng ξ chuẩn per-dataset
+## 2. Thống kê mỗi dataset (ĐỌC TỪ FILE THẬT — `coordinator/ds_features.py`)
 
-Mỗi dataset chạy ở một **ngưỡng utility ξ (`min_wus_mining`)** riêng, chọn sao cho số
-FWUP (Frequent Weighted Utility Patterns) khai thác được ở mức "vừa phải" để so sánh công
-bằng. Giá trị ξ chuẩn + số pattern (đọc từ `MyResults/final_results.csv`, thật):
+Quét `*_quantities.txt`: #giao dịch (dòng không rỗng), #item phân biệt, độ dài, mật độ = avg_len/#item.
 
-| Dataset | ξ chuẩn (config) | ξ dùng ở kết quả | #FWUP | #SFWUP |
-|---|---:|---:|---:|---:|
-| chess | 0.89 | 0.89 | 159 | 14 |
-| mushroom | 0.40 | 0.40 | 325 | 30 |
-| bms-pos | 0.05 | 0.05 | 57 | 10 |
-| retail | 0.014 | 0.014 | 72 | 10 |
-| accident | 0.75 | 0.75 | 82 | 10 |
-| kosarak | 0.022 | 0.022 | 65 | 10 |
-| chainstore | **0.007** (config) | **0.003** (final_results.csv) | 263 | 10 |
+| Dataset | #Giao dịch | #Item | Độ dài TB | Độ dài max | Mật độ |
+|---|---:|---:|---:|---:|---:|
+| chess_fimi | 3,196 | 75 | 37.00 | 37 | 49.33% |
+| mushroom | 8,416 | 119 | 23.00 | 23 | 19.33% |
+| accident | 340,183 | 468 | 33.81 | 51 | 7.22% |
+| bms-pos | 515,596 | 1,657 | 6.53 | 164 | 0.39% |
+| retail | 88,162 | 16,470 | 10.31 | 76 | 0.063% |
+| kosarak | 990,002 | 41,270 | 8.10 | 2,498 | 0.020% |
+| chainstore | 1,112,949 | 46,086 | 7.23 | 170 | 0.016% |
+| **mnc** (IoT) | 736,974 | 96 | 14.00 | 14 | 14.58% |
+| **rtvcq** (IoT) | 63,336 | 76 | 7.25 | 8 | 9.54% |
 
-> ⚠️ **[CẦN NGƯỜI DÙNG XÁC NHẬN]** chainstore: `run_experiments.py::ExperimentManager`
-> ghi `min_wus_mining = 0.007`, nhưng `final_results.csv` báo `xi = 0.003`. Hai nguồn lệch
-> nhau — khi tái dùng cần chốt lại ξ chuẩn cho chainstore.
+Đọc nhanh: **dense** (mật độ cao, dài đều) = chess/mushroom/accident/mnc; **sparse** = retail/kosarak/
+chainstore/bms-pos/rtvcq. chess/mushroom/mnc/rtvcq có độ dài (gần) cố định (37/23/14/7–8) do horizontal/
+discretize. MNC lặp cao: 736,974 dòng nhưng chỉ 204,338 (Model, Current Date Time) phân biệt (~72% trùng;
+txn_key=null ⇒ giữ nguyên row=txn).
 
-**Nguồn ξ**: `run_experiments.py` → `ExperimentManager.experiments[<ds>]["min_wus_mining"]`.
+> ⚠️ **mushroom = 8,416 giao dịch** (đếm thật từ file, = số mọi thí nghiệm §V + calib + gate G6 đã dùng).
+> Mushroom FIMI "chuẩn" thường ghi 8,124 → **lệch 292 dòng** so với bản trong repo. Kết quả nội bộ nhất
+> quán trên 8,416; nêu để control quyết cách trình bày (giữ 8,416 = dữ liệu đã chạy).
 
-**Sweep độ nhạy** (branch `exp/sensitivity-hide-eval`): mỗi dataset còn được calib ở nhiều
-bội số ×mult quanh ξ chuẩn (ví dụ chess ×0.4/0.6/0.8/1.0; kosarak ×0.8…×1.6), lưu ở
-`calibration_results/all_xi/calib_<ds>_<mult>.json` (32 ô tổng). Mỗi file JSON chứa:
-`dataset, multiplier, xi_value, n_fwups, n_sfwups, fwups[], sfwup_patterns[], below_design_floor, source`.
-→ Bài mới có thể tái dùng đúng **cách chọn ξ theo bội số** này để làm biểu đồ sensitivity.
+---
 
-**Chạy lại calibration**: dùng script calib per-dataset (thế hệ mới nằm ở branch
-`exp/sensitivity-hide-eval`, thư mục `tools/`). Nguyên tắc: nạp dataset → mine FWUP ở ξ ứng
-với ×mult → đếm/đóng băng tập pattern → ghi JSON. **[CẦN NGƯỜI DÙNG XÁC NHẬN]** đường dẫn
-script calib chính xác (không có mặt trên branch hiện tại).
+## 3. Calibration — ngưỡng ξ FWI per-dataset (từ `calib_<ds>.json` đã freeze)
+
+Mỗi dataset calib để **50 ≤ #FWI ≤ 300**; **#SFWI = clamp(round(0.1·#candidate), 10, 40)** theo overlap-score
+(top-10%, |X|≥2 ∧ ws>ξ); ξ ≤ 3 chữ số thập phân. Backend freeze = `Fraction` (exact).
+
+| Dataset | ξ (FWI) | #FWI | #SFWI |
+|---|---:|---:|---:|
+| chess_fimi | 0.920 | 293 | 28 |
+| mushroom | 0.457 | 299 | 28 |
+| accident | 0.751 | 299 | 28 |
+| retail | 0.008 | 241 | 14 |
+| bms-pos | 0.021 | 276 | 21 |
+| kosarak | 0.011 | 263 | 22 |
+| chainstore | 0.003 | 264 | 10 |
+| **mnc** (IoT) | 0.204 | 297 | 27 |
+| **rtvcq** (IoT) | 0.057 | 295 | 26 |
+
+(Số khớp CHÍNH XÁC 9 file `calib_<ds>.json`. chainstore ξ = **0.003** — đã chốt, KHÔNG còn "0.007 vs 0.003".)
+
+**Sensitivity sweep:** mỗi dataset còn calib ở bội số `mult ∈ {0.4,0.6,0.8,1.0,1.2,1.4,1.6}` quanh ξ
+(`ξ(mult)=round3(mult·ξ)`), feasibility grid ở `calibration/sweep_grid.json` (7 FIMI) + `sweep_grid_iot.json`
+(mnc, rtvcq). Điểm `feasible=ok` được chạy sweep (chainstore loại khỏi sweep do round3 collapse). Chi tiết
+đường cong: `results/summary.csv` (245 cell = 45 main + 140 sweep-7 + 60 sweep-IoT).
+
+**Chạy lại calibration:** `python3 calibration/calibrate.py [<ds>...]` (nạp dataset → mine FWI ở ξ → freeze
+JSON). IoT: sinh dataset trước bằng `iot_discretize.py`.
 
 ---
 
 ## 4. Loader & format nội bộ (code đọc dataset)
 
-Trong `run_experiments.py`:
+`src/datautil/preprocess.py`:
+- `load_transactions(path)` → `dict{ tid : set(item) }`. Đọc token `item:qty`, **bỏ qty** (FWI dùng
+  `tw=Σw/|T|`, không quantity). Item giữ dạng **string**.
+- `load_weights(path, normalize=10, use_fraction=False)` → `dict{ item : w/10 }`. Weight file là **số
+  nguyên [1,10]** ⇒ /10 → [0.1,1.0] (exact với `Fraction`). `use_fraction=True` cho golden/calibration.
+- **tw / ws** (regime FWI, §0) cài ở `src/hiding/common.py::HidingDB` (num_cache incremental) + membership
+  `ws≥ξ` ở `src/metrics/metrics.py::is_frequent` (float64, **không round3**).
 
-- `load_transactions_from_file(path)` → `dict{ tid(int) : dict{ item(str) : qty(float/int) } }`.
-  Đọc từng dòng, tách token theo space, mỗi token `item:qty`.
-- `load_weights_from_file(path)` → `dict{ item(str) : weight(float) }`. Tách mỗi dòng theo
-  `:` (hoặc `,`), lấy 2 phần `item`, `weight`.
-- **Utility 1 giao dịch** (TU): `TU(t) = Σ_{i∈t} weight(i) · qty(i,t)` — công thức lõi dùng
-  lại ở mọi metric utility (DUS/IUS). Xem `02_INFRASTRUCTURE.md`.
+**Quirk:** item = string key (không cast int khi so pattern); weight dùng `W.get(i,0)` (item thiếu weight
+→ 0); dataset lớn (chainstore 62MB, accident 59MB, kosarak 49MB, mnc 135MB) nạp full RAM → cần ≥16GB
+(máy chạy: GCP c2-standard-16, 64GB).
 
-**Quirk cần biết:**
-- Item là **string key** (không cast int) — giữ nguyên khi so khớp pattern.
-- Weights file có item **không xuất hiện** trong transactions và ngược lại → luôn dùng
-  `weights.get(i, 0.0)` (default 0) để không KeyError.
-- Dataset lớn (chainstore 62 MB, accident 59 MB, kosarak 49 MB): nạp vào RAM dạng dict →
-  cần máy ≥ 8–16 GB. Không có streaming; toàn bộ DB giữ trong bộ nhớ.
-
-### bms-pos — lỗi số liệu đã sửa (QUAN TRỌNG khi tái dùng)
-- Bản gốc thô (`BMS-POS.csv` / `bms-pos.txt`, header lỗi) **KHÔNG** được code đọc trực tiếp.
-- Pipeline làm sạch: `tools/bmspos_normalize_csv_to_fimi.py` (chuẩn hóa CSV→FIMI) +
-  `tools/bmspos_generate_iu_eu.py` (sinh quantity/weight uniform[1,10]) → tạo ra
-  `bms-pos_quantities.txt` + `bms-pos_weights.txt` **SẠCH**.
-- Bản sạch: **515,596 giao dịch**, 1,657 item. Đây là bản đúng để dùng lại.
-- Hai script pipeline nằm ở branch `fix/bms-pos-data` (không có trên branch hiện tại).
-  Chỉ cần khi muốn tái tạo lại từ đầu; nếu chỉ dùng dữ liệu thì 2 file `.txt` sạch là đủ.
+### bms-pos — đã làm sạch (khi tái dùng)
+Bản gốc thô header lỗi KHÔNG đọc trực tiếp. Đã chuẩn hóa CSV→FIMI + sinh qty/weight uniform[1,10] →
+`bms-pos_{quantities,weights}.txt` sạch: **515,596 giao dịch, 1,657 item**. Hai file `.txt` sạch là đủ để dùng.
 
 ---
 
 ## 5. Dataset dùng cho mục đích gì
 
-| Dataset | So sánh chính | Sensitivity (quét ξ) | Stress / dày | Ghi chú |
+| Dataset | So sánh main | Sweep | Dày/stress | Ghi chú |
 |---|:---:|:---:|:---:|---|
-| chess | ✓ | ✓ | ✓ (dense) | Nhanh (~0.3s mine), test nóng |
-| mushroom | ✓ | ✓ | ✓ (dense) | Nhanh (~1.5s), dense vừa |
-| retail | ✓ | ✓ | | Sparse vừa, ~9s |
-| chainstore | ✓ | | | Sparse rất lớn, mine ~114s |
-| accident | ✓ | ✓ | ✓ (dense lớn) | Dense + lớn → tốn RAM/CPU |
-| kosarak | ✓ | ✓ | | Sparse lớn, giao dịch max 2,498 item |
-| bms-pos | ✓ | ✓ | | Sparse lớn, ξ=0.05, mine ~31 phút bản gốc |
+| chess_fimi | ✓ | ✓ | ✓ | Nhanh, dense, ξ cao (0.92) |
+| mushroom | ✓ | ✓ | ✓ | Dense vừa |
+| retail | ✓ | ✓ | | Sparse vừa |
+| chainstore | ✓ | (loại sweep) | | Sparse rất lớn; round3 collapse ở ξ nhỏ |
+| accident | ✓ | ✓ | ✓ | Dense + lớn; baseline nghi timeout |
+| kosarak | ✓ | ✓ | | Sparse lớn, txn max 2,498 item |
+| bms-pos | ✓ | ✓ | | Sparse lớn |
+| **mnc** (IoT) | ✓ | ✓ | ✓ | Dense/lặp; baseline MSU-MAU + MCP-safe (ξ thấp) nghi timeout 2h |
+| **rtvcq** (IoT) | ✓ | ✓ | | Nhẹ, không timeout |
 
-> Bảng mục đích tổng hợp từ config (thứ tự chạy fast→slow) + comment mining-time trong
-> `run_experiments.py`. Cột "So sánh chính" = mọi dataset đều dùng cho bảng so sánh method.
+> **Weight scheme (cả 9 dataset) = uniform int[1,10] → /10** (xác nhận bằng histogram, xem
+> `VIEC_PACKAGING.md` §A3). Bài cũ mô tả "normal" là SAI — thực nghiệm dùng **uniform**. IoT sinh uniform
+> ⇒ nhất quán với 7 FIMI.
