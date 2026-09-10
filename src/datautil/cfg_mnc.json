@@ -1,0 +1,5 @@
+{"categorical":["Network Operator","Network Type","Band","Roaming","Mobile Status","Level"],
+ "continuous":["RSRP LTE","RSRQ LTE","RSSI LTE","SNR LTE","CQI LTE","ASU Level LTE","Longitude","Upstream Bandwidth"],
+ "na_values":{"Latitude":["-1"],"Longitude":["-1"]},
+ "txn_key":null,
+ "_note":"final 14 feat: Location Status bỏ (hằng), Latitude bỏ (bin9=100%), Downstream Bandwidth bỏ (bin0=99.48%) theo rule non-discriminative >=99%"}

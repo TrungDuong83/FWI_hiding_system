@@ -1,0 +1,146 @@
+{
+ "rtvcq": [
+  {
+   "mult": 0.4,
+   "xi": 0.023,
+   "n_fwi": 1114,
+   "n_sfwi": 40,
+   "n_candidate": 1074,
+   "mine_time_s": 4.67,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 0.6,
+   "xi": 0.034,
+   "n_fwi": 637,
+   "n_sfwi": 40,
+   "n_candidate": 600,
+   "mine_time_s": 3.9,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 0.8,
+   "xi": 0.046,
+   "n_fwi": 403,
+   "n_sfwi": 37,
+   "n_candidate": 370,
+   "mine_time_s": 3.51,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.0,
+   "xi": 0.057,
+   "n_fwi": 295,
+   "n_sfwi": 26,
+   "n_candidate": 265,
+   "mine_time_s": 3.21,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.2,
+   "xi": 0.068,
+   "n_fwi": 216,
+   "n_sfwi": 19,
+   "n_candidate": 188,
+   "mine_time_s": 2.92,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.4,
+   "xi": 0.08,
+   "n_fwi": 174,
+   "n_sfwi": 15,
+   "n_candidate": 150,
+   "mine_time_s": 2.43,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.6,
+   "xi": 0.091,
+   "n_fwi": 138,
+   "n_sfwi": 12,
+   "n_candidate": 116,
+   "mine_time_s": 2.04,
+   "feasible": "ok",
+   "reason": "ok"
+  }
+ ],
+ "mnc": [
+  {
+   "mult": 0.4,
+   "xi": 0.082,
+   "n_fwi": 5377,
+   "n_sfwi": 40,
+   "n_candidate": 5334,
+   "mine_time_s": 405.26,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 0.6,
+   "xi": 0.122,
+   "n_fwi": 1546,
+   "n_sfwi": 40,
+   "n_candidate": 1509,
+   "mine_time_s": 257.93,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 0.8,
+   "xi": 0.163,
+   "n_fwi": 636,
+   "n_sfwi": 40,
+   "n_candidate": 604,
+   "mine_time_s": 167.6,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.0,
+   "xi": 0.204,
+   "n_fwi": 297,
+   "n_sfwi": 27,
+   "n_candidate": 271,
+   "mine_time_s": 110.87,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.2,
+   "xi": 0.245,
+   "n_fwi": 184,
+   "n_sfwi": 16,
+   "n_candidate": 165,
+   "mine_time_s": 75.29,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.4,
+   "xi": 0.286,
+   "n_fwi": 89,
+   "n_sfwi": 10,
+   "n_candidate": 77,
+   "mine_time_s": 44.99,
+   "feasible": "ok",
+   "reason": "ok"
+  },
+  {
+   "mult": 1.6,
+   "xi": 0.326,
+   "n_fwi": 58,
+   "n_sfwi": 10,
+   "n_candidate": 49,
+   "mine_time_s": 35.39,
+   "feasible": "ok",
+   "reason": "ok"
+  }
+ ]
+}
